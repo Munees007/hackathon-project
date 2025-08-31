@@ -1,0 +1,21 @@
+{
+  "database": {
+    "rules": "database.rules.json"
+  },
+  "emulators": {
+    "database": {
+      "host":"0.0.0.0",
+      "port": 9000
+    },
+    "ui": {
+      "enabled": true
+    },
+    "singleProjectMode": true,
+    "exportOnExit": true
+  },
+  "emulator": {
+    "import": "./emulator-data",
+    "exportOnExit": true,
+    "exportPath": "emulator-data"
+  }
+}
