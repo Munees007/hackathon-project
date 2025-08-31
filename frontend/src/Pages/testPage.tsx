@@ -51,7 +51,20 @@ const TestPage = () => {
   boilerCode:[
     {
       boilerCodeTop: `#include <iostream>\n#include <cmath>\nusing namespace std;\n\n`,
-      boilerCodeBottom: `\n\nint main() {\n    int num;\n    cin >> num;\n    cout << (isArmstrong(num) ? "Armstrong Number" : "Not an Armstrong number");\n    return 0;\n}`,
+      boilerCodeBottom: `
+int main() {
+    int num;
+    cin >> num;
+
+    
+    bool result = isArmstrong(num);
+    cout << "===result_start===" << endl;
+    cout << (result ? "Armstrong Number" : "Not an Armstrong number") << endl;
+    cout << "===result_end===" << endl;
+
+    return 0;
+}`,
+
       funtionSignature: "bool isArmstrong(int num)",
       languageCode: 54 // C++
     },
@@ -79,10 +92,11 @@ const TestPage = () => {
     const res = await ExecuteTestCases(levelData, 1, `bool isArmstrong(int num) {
     int original = num, sum = 0;
     int digits = to_string(num).length();
-
+    cout <<"Digits = "<<digits << endl;
+    cout<< "Given Number = "<<num<<endl;
     while (num > 0) {
         int digit = num % 10;
-        sum += pow(digit, 3);
+        sum += pow(digit, digits);
         num /= 10;
     }
 

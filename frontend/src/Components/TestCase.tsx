@@ -112,10 +112,13 @@ export const TestCase:React.FC<TestCaseProps> = ({ caseResult }) => {
 
             {CurrentTestCase.stdOutput && (
               <p>
-                <strong className="text-gray-800">Std Output:</strong>{" "}
-                <code className="bg-gray-200 px-1 py-0.5 rounded">
+                <strong className="text-gray-800">Std Output:</strong>
+                <br></br>
+                <div className="w-full rounded-md bg-gray-200">
+                <code className=" px-1 py-0.5 rounded whitespace-pre-wrap">
                   {CurrentTestCase.stdOutput}
                 </code>
+                </div>
               </p>
             )}
 

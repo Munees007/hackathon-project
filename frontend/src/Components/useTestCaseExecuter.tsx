@@ -53,9 +53,10 @@ export const useTestCaseExecutor = () => {
 
       // ExecuteCode(finalCode, language!, `main.${language}`, testCases[i].input);
       // const result = await TriggerRun();
-      console.log(finalCode,languageCode)
       const result = await executeCode(finalCode, languageCode,  testCases[i].input);
       let parsed = parseOutput(result.output);
+      console.log(result)
+      console.log(parsed)
       testCases[i].producedOutput = parsed.result;
       testCases[i].stdOutput = parsed.debug;
       if (result.success && parsed.result.trim() === testCases[i].output.trim()) {

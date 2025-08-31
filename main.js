@@ -43,7 +43,8 @@ function createWindow() {
   
     
   } else {
-    backendProcess = fork(path.join(__dirname, 'backend/server.js'));
+    const backendPath = path.join(__dirname, 'backend', 'CodeRunner.exe');
+    backendProcess = spawn(backendPath, [], {stdio:"pipe"});
     mainWindow.loadURL("http://localhost:5173");
   }
 
