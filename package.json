@@ -1,0 +1,52 @@
+{
+  "name": "hackathon-compiler",
+  "main": "main.js",
+  "version": "1.0.0",
+  "description": "Hackathon Software Desktop App",
+  "author": "Munees",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "build": {
+    "appId": "com.hackathon.compiler",
+    "files": [
+      "main.js",
+      "frontend/dist/**/*",
+      "compiler_env/**/*",
+      "backend/**/*"
+    ],
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "extraResources": [
+      {
+        "from": "frontend/dist",
+        "to": "frontend/dist"
+      },
+      {
+        "from": "compiler_env",
+        "to": "compiler_env"
+      },
+      {
+        "from": "backend/CodeRunner.exe",
+        "to": "backend/CodeRunner.exe",
+        "filter": ["**/*"]
+      },
+      {
+      "from": "assets/",
+      "to": "assets/",
+      "filter": ["**/*"]
+    }
+    ],
+    "electronVersion": "37.3.1"
+  },
+  "devDependencies": {
+    "electron": "^37.3.1",
+    "electron-builder": "^26.0.12"
+  },
+  "dependencies": {
+    "electron-log": "^5.4.3"
+  }
+}
