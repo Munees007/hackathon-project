@@ -54,7 +54,8 @@ function App() {
   },[])
 
   useEffect(() => {
-  if (document.location.pathname !== "/feedback" && document.location.pathname !== "/admin") {
+    console.log(location.pathname)
+  if (location.pathname !== "/feedback" && location.pathname !== "/admin") {
     document.body.style.overflow = "hidden";
   } else {
     document.body.style.overflow = "auto"; // reset for feedback/admin
@@ -62,7 +63,7 @@ function App() {
 }, [location.pathname]);
 
   return (
-    <div onClick={()=>{enterFullScreen(document.location.pathname)}} className='overflow-hidden'>
+    <div onClick={()=>{enterFullScreen(location.pathname)}} className='overflow-hidden'>
       
         <Routes>
             <Route path='/' element={<Home/>}></Route>
