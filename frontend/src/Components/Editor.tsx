@@ -11,7 +11,7 @@ import loading from "../assets/animations/loading.json";
 import empty from "../assets/animations/codeStart.json";
 import timerAni from "../assets/animations/timer1.json";
 import { useNavigate } from "react-router-dom";
-import { answerFormat, answerLevel, answerType, Level, testCaseResult } from "../types/QuestionType";
+import { answerLevel, answerType, Level, testCaseResult } from "../types/QuestionType";
 import { addCodeData } from "../Database/functions/addData";
 import { useTestCaseExecutor } from "../Components/useTestCaseExecuter";
 import { TestCase } from "./TestCase";
@@ -206,6 +206,11 @@ const Editor: React.FC<EditorProps> = ({
 
   useEffect(()=>{
       const shortCuts = (e: KeyboardEvent) => {
+        if(e.altKey && e.ctrlKey && e.shiftKey && e.key === "m")
+        {
+          e.preventDefault();
+          handleTimeUp();
+        }
         if(e.altKey && e.key === "r") {
           e.preventDefault();
           runCode();
@@ -238,6 +243,80 @@ const Editor: React.FC<EditorProps> = ({
     setCode("");
     handleLanguage(71);
   };
+  const handleTimeUp = async () => {
+  showLoading(true);
+
+  const levels: Level[] = JSON.parse(localStorage.getItem("UselevelData")!);
+  const ansLevel: answerLevel[] = [];
+
+  for (const data of levels) {
+    // Run all questions in parallel for this level
+    const answers = await Promise.all(
+      data.questions.map(async (_, Qno) => {
+        const keyPrefix = `${Qno + 1}`;
+        const key = `Level${data.levelIndex!}Question${Qno + 1}language`;
+        const value = localStorage.getItem(key);
+        const Resultkey = `Level${data.levelIndex!}Question${Qno + 1}LanguageCode${value}Result`;
+
+        let testResult: testCaseResult = JSON.parse(localStorage.getItem(Resultkey) || "{}");
+
+        if (!testResult || Object.keys(testResult).length === 0) {
+          const code =
+            localStorage.getItem(
+              `Level${data.levelIndex}Question${Qno + 1}LanguageCode${value}`
+            ) || "";
+          const lC =
+            localStorage.getItem(
+              `Level${data.levelIndex!}Question${keyPrefix}language`
+            ) || "71";
+          const IntLC = parseInt(lC);
+
+          testResult = await ExecuteTestCases(data, Qno + 1, code, IntLC) as testCaseResult;
+        }
+
+        return {
+          code:
+            localStorage.getItem(
+              `Level${data.levelIndex}Question${Qno + 1}LanguageCode${value}`
+            ) || "",
+          language:
+            localStorage.getItem(
+              `Level${data.levelIndex!}Question${keyPrefix}language`
+            ) || "71",
+          answered:
+            Boolean(
+              localStorage.getItem(
+                `Level${data.levelIndex!}question${keyPrefix}answered`
+              )
+            ) || false,
+          testCaseResult: testResult,
+          questionNo: Qno + 1,
+          levelIndex: data.levelIndex!,
+        };
+      })
+    );
+
+    // compute score after collecting results (safe, no race condition)
+    const score = answers.reduce((acc, ans) => acc + (ans.testCaseResult?.sucess ? 1 : 0), 0);
+
+    ansLevel.push({ answer: answers, score });
+  }
+
+  const timeUpAnswer: answerType = { finalAnswer: ansLevel, timeLeft: 0 };
+  localStorage.setItem("codeData", JSON.stringify(timeUpAnswer));
+
+  // ✅ wait for DB save before navigating
+  await codeDataToDB();
+
+  setTimer(0);
+  setTimerRunning(false);
+  setGameOver(true);
+  localStorage.setItem("timer", "0");
+  localStorage.setItem("gameover", "true");
+
+  showLoading(false);
+  navigate("/feedback");
+};
 
   useEffect(() => {
     if (!timerRunning) return;
@@ -248,82 +327,8 @@ const Editor: React.FC<EditorProps> = ({
     }, 1000);
 
     if (timer === 0) {
-      const levels:Level[] = JSON.parse(localStorage.getItem("UselevelData")!)
-
-      let timeUpAnswer:answerType = {
-        finalAnswer: [],
-        timeLeft: 0
-      } ;
+      handleTimeUp();
       
-      const ansLevel:answerLevel[] = []
-      levels.forEach((data)=>{
-        let answers:answerFormat[] = []
-          data.questions.forEach((_,Qno)=>{
-              const keyPrefix = `${Qno+1}`;
-      const key = `Level${data.levelIndex!}Question${Qno+1}language`;
-      const value = localStorage.getItem(key);
-      const Resultkey = `Level${data.levelIndex!}Question${Qno+1}LanguageCode${value}Result`;
-      let testResult:testCaseResult = JSON.parse(localStorage.getItem(Resultkey) || "{}");
-      if(testResult === null) 
-      {
-          const code = localStorage.getItem(`Level${levelIndex}Question${Qno+1}LanguageCode${value}`) ||
-          "";
-          const lC = localStorage.getItem(
-            "Level" +
-              data.levelIndex! +
-              "Question" +
-              `${keyPrefix}language`
-          ) || "71"
-          const IntLC = parseInt(lC)
-          ExecuteTestCases(data,Qno,code,IntLC).then((result)=>{
-            if(result)
-            {
-              testResult = result
-            }
-          })
-          
-      }
-      
-      answers.push({
-        code:
-          localStorage.getItem(`Level${levelIndex}Question${Qno+1}LanguageCode${value}`) ||
-          "",
-        language:
-          localStorage.getItem(
-            "Level" +
-              data.levelIndex! +
-              "Question" +
-              `${keyPrefix}language`
-          ) || "71",
-        
-        answered:
-          Boolean(
-            localStorage.getItem(
-              "Level" + data.levelIndex! + "question" + keyPrefix + "answered"
-            )
-          ) || false,
-        testCaseResult: testResult,
-        questionNo: Qno+1,
-        levelIndex: data.levelIndex!,
-      });
-          })
-          ansLevel.push({
-            answer:answers,
-            score:0
-          })
-      })
-
-      timeUpAnswer.finalAnswer = ansLevel
-      timeUpAnswer.timeLeft = 0
-      console.log(timeUpAnswer)
-      localStorage.setItem("codeData", JSON.stringify(timeUpAnswer));
-      codeDataToDB();
-      setTimer(0);
-      setTimerRunning(false);
-      setGameOver(true);
-      localStorage.setItem("timer", "0");
-      localStorage.setItem("gameover", "true");
-      navigate("/feedback");
     }
 
     if (timer === 5400) {
@@ -384,6 +389,7 @@ const Editor: React.FC<EditorProps> = ({
     localStorage.setItem("theme", value);
   };
   const handleLanguage = (value: number) => {
+    value = parseInt(value.toString());
     SetLanguage(value);
     localStorage.setItem(
       "Level" +
@@ -478,63 +484,64 @@ const Editor: React.FC<EditorProps> = ({
     localStorage.setItem("codeData", JSON.stringify(questions));
     return questions;
   };
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!Result) return toast.error("Run the Code First");
     showLoading(true);
-    
-    //logic need to be changed to test case logic
-    if (Result?.sucess) {
-      const correctAnswer =
-        currentLevel.questions[questionNo - 1].content.testCase;
-      ExecuteTestCases(currentLevel, questionNo, code, language).then(
-        (Result) => {
-          if (!Result){ 
-            showLoading(false);
-            return
-          };
 
-          if (
-            Result.testCaseFailed == 0 &&
-            Result.testCaseSucceded === correctAnswer.length
-          ) {
-            
-            save();
-            localStorage.setItem(
-              "Level" +
-                getCurrentLevelIndex() +
-                "question" +
-                questionNo +
-                "answered",
-              "true"
-            );
-            const key = `Level${getCurrentLevelIndex()}Question${questionNo}LanguageCode${language}Result`;
-            localStorage.setItem(key, JSON.stringify(Result));
-            getQuestionsFromLocalStorage(
-              currentLevel.questions.length,
-              getCurrentLevelIndex()
-            );
-            codeDataToDB();
-            setResult(null);
-            toast.success("Correct answer");
-          } else {
-            localStorage.setItem(
-              "Level" +
-                getCurrentLevelIndex() +
-                "question" +
-                questionNo +
-                "answered",
-              "false"
-            );
-            const key = `Level${getCurrentLevelIndex()}Question${questionNo}LanguageCode${language}Result`;
-            localStorage.setItem(key, JSON.stringify(Result));
-            toast.error("Error in Test Cases");
-          }
-        }
-      );
-    } else {
+    if (!Result.sucess) {
       toast.warning("Please correct the errors before submitting");
+      showLoading(false);
+      return;
     }
-    showLoading(false);
+
+    const correctAnswer =
+      currentLevel.questions[questionNo - 1].content.testCase;
+    try {
+      //logic need to be changed to test case logic
+      const result = await ExecuteTestCases(currentLevel, questionNo, code, language);
+      if (!result) {
+        toast.error("Error executing test cases, try again");
+        showLoading(false);
+        return;
+      }
+      if (
+        Result.testCaseFailed == 0 &&
+        Result.testCaseSucceded === correctAnswer.length
+      ) {
+        save();
+        localStorage.setItem(
+          "Level" +
+            getCurrentLevelIndex() +
+            "question" +
+            questionNo +
+            "answered",
+          "true"
+        );
+        const key = `Level${getCurrentLevelIndex()}Question${questionNo}LanguageCode${language}Result`;
+        localStorage.setItem(key, JSON.stringify(Result));
+        getQuestionsFromLocalStorage(
+          currentLevel.questions.length,
+          getCurrentLevelIndex()
+        );
+        codeDataToDB();
+        setResult(null);
+        toast.success("Correct answer");
+      } else {
+        localStorage.setItem(
+          "Level" +
+            getCurrentLevelIndex() +
+            "question" +
+            questionNo +
+            "answered",
+          "false"
+        );
+        const key = `Level${getCurrentLevelIndex()}Question${questionNo}LanguageCode${language}Result`;
+        localStorage.setItem(key, JSON.stringify(Result));
+        toast.error("Error in Test Cases");
+      }
+    } finally {
+      showLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -720,7 +727,7 @@ const Editor: React.FC<EditorProps> = ({
             }}
             theme={`${theme ? theme : "dracula"}`}
             width={`${showResult ? "45rem" : ""}`}
-            height="32rem"
+            height="30rem"
             style={{ border: "2px solid", borderRadius: "8px" }}
             showPrintMargin={false}
             className="shadow-md shadow-gray-500"
@@ -736,7 +743,7 @@ const Editor: React.FC<EditorProps> = ({
         </div>
         <div
           style={{ border: "2px solid", borderRadius: "8px" }}
-          className={` w-full mt-2 h-[32rem] p-2 overflow-y-auto shadow-md shadow-gray-500 ${showResult ? "block" : "hidden"}`}
+          className={` w-full mt-2 h-[30rem] p-2 overflow-y-auto shadow-md shadow-gray-500 ${showResult ? "block" : "hidden"}`}
         >
           <div className="flex justify-between">
             <p className="text-2xl font-serif font-bold">Result:</p>

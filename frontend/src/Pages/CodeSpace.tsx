@@ -87,7 +87,7 @@ const CodeSpace = () => {
   }, [levelData, currentLevel]);
   const [showSlide, setShowSlide] = useState<boolean>(false);
   const [currenQuestionIndex, setCurrentQuestionIndex] = useState<number>(1);
-  const [completedData, setCompletedData] = useState<Level[]>(()=>{
+  const [__, setCompletedData] = useState<Level[]>(()=>{
     const temp = localStorage.getItem("completedData");
     if(temp)
     {
@@ -219,7 +219,7 @@ const CodeSpace = () => {
                   setShowQuestion={setShowQuestion}
                 />
               ))}
-              <p className="text-2xl font-mono m-2">Completed</p>
+              {/* <p className="text-2xl font-mono m-2">Completed</p>
               <div>
                 {completedData?.map((value, index) => (
                   <div key={index}>
@@ -238,7 +238,7 @@ const CodeSpace = () => {
                     ))}
                   </div>
                 ))}
-              </div>
+              </div> */}
             </div>
           </div>
           <Compiler

@@ -3,6 +3,7 @@ import { useTestCaseExecutor } from "../Components/useTestCaseExecuter"; // adju
 import { Level } from "../types/QuestionType";
 import { TestCase } from "../Components/TestCase";
 import axios from "axios";
+import RulesCard from "../Components/RulesCard";
 
 const TestPage = () => {
   const [result, setResult] = useState<any>(null);
@@ -109,6 +110,7 @@ int main() {
     <div>
     <button onClick={handleCheck}>Clcik</button>
       <TestCase caseResult={result}></TestCase>
+      <RulesCard/>
     </div>
   );
 };

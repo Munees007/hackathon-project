@@ -16,6 +16,9 @@ const languages = [
     { label: "python", value: 71 },
   ];
   const language = languages.find(lang => lang.value === languageCode);
+  console.log("Selected language:", language);
+  console.log("Type of languageCode =", typeof languageCode, languageCode);
+
   try {
     const response = await axios.post(
       "http://localhost:3000/run",

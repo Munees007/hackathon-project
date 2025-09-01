@@ -19,20 +19,27 @@ const Home = () =>{
     const backGround = ["Bg1.jpg", "bg2.png"];
     const navigate =  useNavigate();
     const dateObj = new Date();
+    const fetchTime = async () => {
+    const time = await getTime();
+    console.log("Fetched time from DB:", time);
+
+    try {
+      const numericTime = Number(time);
+      const finalTime = numericTime > 0 ? numericTime : 60 * 40;
+      localStorage.setItem("dbTime", finalTime.toString());
+      console.log("Stored dbTime in localStorage:", finalTime);
+    } catch (err) {
+      console.error("Failed to set localStorage:", err);
+    }
+  };
+
+useEffect(() => {
+  
+  fetchTime();
+}, [navigate]);
+
     useEffect(()=>{
         enterFullScreen(document.location.pathname);
-        const fetchTime = async () =>{
-          const time = await getTime();
-          if(time)
-          {
-            localStorage.setItem("dbTime",time.toString());
-          }
-          else
-          {
-            localStorage.setItem("dbTime",(60*40).toString());
-          }
-        }
-        fetchTime();
     },[])
     const handleImageChange = (direction: "next" | "prev") => {
       const currentIndex = backGround.indexOf(currentImg);
@@ -60,7 +67,12 @@ const Home = () =>{
       }
       else
       {
-        localStorage.clear();
+        Object.keys(localStorage).forEach((key) => {
+    if (key !== "dbTime" && !key.includes("firebase")) {
+      localStorage.removeItem(key);
+    }
+  });
+
         localStorage.setItem("date",dateObj.toLocaleDateString());
       }
     }

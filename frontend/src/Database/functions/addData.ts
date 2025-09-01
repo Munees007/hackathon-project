@@ -146,7 +146,7 @@ export async function getTime():Promise<number>{
             return userSnapShot.val()
         }
         else{
-            throw new Error('no flag found');
+            throw new Error('no time found');
         }
     } catch (error) {
         console.log(error)

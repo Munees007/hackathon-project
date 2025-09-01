@@ -1,6 +1,7 @@
 import React from "react";
 import { CgClose } from "react-icons/cg";
 import {questionType } from "../types/QuestionType";
+import { TestCase } from "./TestCase";
 interface FullQuestionProps {
   getCurrentQuestion?: () => questionType | undefined;
   theme: string;
@@ -16,7 +17,7 @@ const FullQuestion: React.FC<FullQuestionProps> = ({
       <div
         className={`w-[40rem] overflow-auto relative ace-${theme} border-2 rounded-md h-[38rem]`}
       >
-        <div className="sticky top-0 w-full flex justify-end pr-2 pt-2 bg-white z-10">
+        <div className="sticky top-0 w-full flex justify-end pr-2 pt-2 z-10">
       <CgClose
         size={30}
         className="cursor-pointer"
@@ -78,9 +79,13 @@ const FullQuestion: React.FC<FullQuestionProps> = ({
             </div> : <></>
             }
             </>
-            
+            <div>
+                <h4 className="font-semibold">TestCase:</h4>
+                <TestCase caseResult={getCurrentQuestion()?.content.testCase}></TestCase>
+            </div>
           </div>
         )}
+        
       </div>
     </div>
   );

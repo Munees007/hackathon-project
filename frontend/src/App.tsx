@@ -25,6 +25,11 @@ function App() {
         event.preventDefault();
         return false;
       }
+      if(event.key === 'F2')
+      {
+        naviagte('/');
+        return false;
+      }
       if(event.key === 'F9'){
         naviagte('/admin');
         return false;

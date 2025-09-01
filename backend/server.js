@@ -44,7 +44,7 @@ const CONFIG = {
     java: path.join(compilerEnvPath, "java", "bin", os.platform() === "win32" ? "java.exe" : "java") 
   },
   python: { 
-    exe: path.join(compilerEnvPath, "python", "bin", os.platform() === "win32" ? "python.exe" : "python") 
+    exe: path.join(compilerEnvPath, "python", os.platform() === "win32" ? "python.exe" : "python") 
   },
   node: { 
     exe: path.join(compilerEnvPath, "node", "bin", os.platform() === "win32" ? "node.exe" : "node") 
