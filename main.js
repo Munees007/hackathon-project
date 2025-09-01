@@ -6,15 +6,6 @@ import Logger from "electron-log";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-function getAssetPath(...paths) {
-  if (app.isPackaged) {
-    // production → use resourcesPath
-    return path.join(process.resourcesPath, "assets", ...paths);
-  } else {
-    // development → use __dirname
-    return path.join(__dirname, "assets", ...paths);
-  }
-}
 
 let backendProcess;
 function createWindow() {
@@ -27,7 +18,6 @@ function createWindow() {
       nodeIntegration: false,
       contextIsolation: true,
     },
-    icon: getAssetPath("icons", "logo.png"),
   });
 
   if (app.isPackaged) {

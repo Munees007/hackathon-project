@@ -16,6 +16,9 @@
       "compiler_env/**/*",
       "backend/**/*"
     ],
+    "win":{
+      "icon":"assets/icons/logo.ico"
+    },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true
@@ -33,12 +36,7 @@
         "from": "backend/CodeRunner.exe",
         "to": "backend/CodeRunner.exe",
         "filter": ["**/*"]
-      },
-      {
-      "from": "assets/",
-      "to": "assets/",
-      "filter": ["**/*"]
-    }
+      }
     ],
     "electronVersion": "37.3.1"
   },
