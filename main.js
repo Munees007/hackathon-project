@@ -18,6 +18,7 @@ function createWindow() {
       nodeIntegration: false,
       contextIsolation: true,
     },
+    icon: path.join(__dirname, "assets/icons/logo.ico"),
   });
 
   if (app.isPackaged) {
