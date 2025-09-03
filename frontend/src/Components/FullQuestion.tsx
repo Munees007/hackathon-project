@@ -1,7 +1,7 @@
 import React from "react";
 import { CgClose } from "react-icons/cg";
 import {questionType } from "../types/QuestionType";
-import { TestCase } from "./TestCase";
+import { DisplayTestCase } from "./DisplayTestCase";
 interface FullQuestionProps {
   getCurrentQuestion?: () => questionType | undefined;
   theme: string;
@@ -81,7 +81,7 @@ const FullQuestion: React.FC<FullQuestionProps> = ({
             </>
             <div>
                 <h4 className="font-semibold">TestCase:</h4>
-                <TestCase caseResult={getCurrentQuestion()?.content.testCase}></TestCase>
+                <DisplayTestCase caseResult={getCurrentQuestion()?.content.testCase}></DisplayTestCase>
             </div>
           </div>
         )}

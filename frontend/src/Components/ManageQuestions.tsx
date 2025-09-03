@@ -4,7 +4,7 @@ import { deleteQuestionFromLevel, getLevelsData } from "../Database/functions/ad
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.min.css"
-import { TestCase } from "./TestCase";
+import { DisplayTestCase } from "./DisplayTestCase";
 interface DisplayLevelProps{
     data:Level,
     index:number,
@@ -40,7 +40,7 @@ const DisplayLevel:React.FC<DisplayLevelProps> = ({data,index,onDelete}) =>{
                 </div>
                 <div className="">
                         <p className="text-xl font-semibold font-mono">Test Cases:</p>
-                        <TestCase caseResult={value.content.testCase}></TestCase>
+                        <DisplayTestCase caseResult={value.content.testCase}></DisplayTestCase>
                 </div>
                     </div>
                 ))
