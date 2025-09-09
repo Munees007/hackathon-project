@@ -1,5 +1,5 @@
 const enterFullScreen = (path:string) => {
-    if(path !== "/admin" && !path.startsWith("/profile") && path !== "/feedback")
+    if(path !== "/admin" && !path.startsWith("/profile") && path !== "/feedback" && path !== "/registration")
     {
         const elem = document.documentElement;
         if (elem.requestFullscreen) {

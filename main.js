@@ -14,6 +14,11 @@ function createWindow() {
   const mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
+    minimizable: false,
+    maximizable: true,
+    fullscreen: true, 
+    fullscreenable: true,
+    closable: false,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -21,6 +26,14 @@ function createWindow() {
     icon: path.join(__dirname, "assets/icons/logo.ico"),
   });
 
+  mainWindow.on('leave-full-screen',()=>{
+    mainWindow.setFullScreen(true);
+  })
+
+  mainWindow.on("blur", () => {
+  // Optional: if user ALT+TAB, force back focus
+  mainWindow.focus();
+});
   if (app.isPackaged) {
     Logger.info("App is packaged");
     Logger.info("execPath = ",process.execPath);

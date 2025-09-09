@@ -14,6 +14,8 @@ import { FeedBack } from './Pages/FeedBack'
 import {LeaderBoard} from './Pages/LeaderBoard'
 import RulesCard from './Components/RulesCard'
 import PresentationPage from './Components/PresentationPage'
+import { CarGame } from './Pages/CarGame'
+import Registration from './Pages/Registration'
 
 function App() {
   const location = useLocation();
@@ -55,7 +57,7 @@ function App() {
 
   useEffect(() => {
     console.log(location.pathname)
-  if (location.pathname !== "/feedback" && location.pathname !== "/admin") {
+  if (location.pathname !== "/feedback" && location.pathname !== "/admin" && location.pathname !== "/registration") {
     document.body.style.overflow = "hidden";
   } else {
     document.body.style.overflow = "auto"; // reset for feedback/admin
@@ -78,6 +80,8 @@ function App() {
             <Route path='/qn' element={<QuestionPage/>}/>
             <Route path="/rule" element={<RulesCard/>}/>
             <Route path='/present' element={<PresentationPage/>}/>
+            <Route path="/car_game" element={<CarGame/>}/>
+            <Route path="/registration" element={<Registration/>}/>
         </Routes>
       
     </div>
