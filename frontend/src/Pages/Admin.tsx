@@ -7,15 +7,19 @@ import { answerType, Level } from "../types/QuestionType";
 import CreateQuestions from "../Components/CreateQuestions";
 import ManageQuestions from "../Components/ManageQuestions";
 import { BsPeopleFill } from "react-icons/bs";
-import { RiDashboardFill, RiSettings5Fill } from "react-icons/ri";
+import { RiDashboardFill, RiRegisteredFill, RiSettings5Fill } from "react-icons/ri";
 import { IoMdCreate } from "react-icons/io";
 import { BiUserCircle } from "react-icons/bi";
 import { SiPhpmyadmin } from "react-icons/si";
 import { GrScorecard } from "react-icons/gr";
 import Score, { ScoreType } from "./Score";
 import { useNavigate } from "react-router-dom";
-import { MdFeedback } from "react-icons/md";
+import { MdFeedback, MdSettingsApplications } from "react-icons/md";
 import { ViewFeedBack } from "../Components/ViewFeedBack";
+import { General } from "../Components/General";
+import { Registered } from "../Components/Registered";
+import Sider from "antd/es/layout/Sider";
+import { Menu } from "antd";
 
 export interface userDataType {
   key: string;
@@ -24,6 +28,8 @@ export interface userDataType {
   Position: string
 }
 const Admin = () => {
+  const [collapsed, setCollapsed] = useState(false); // for Ant Design collapsible sider
+
   const [userData, setUserData] = useState<userDataType[]>();
   const [levelData,setLevelData] = useState<Level[]>();
   const [scoreData,setScoreData] = useState<ScoreType[]>([]);
@@ -34,6 +40,8 @@ const Admin = () => {
     return Boolean(sessionStorage.getItem("adminVerified")) || false;
   });
   const [showPanels, setShowPanels] = useState<boolean[]>([
+    false,
+    false,
     false,
     false,
     false,
@@ -141,62 +149,57 @@ const Admin = () => {
     /* Admin Panel Layout */
     <div className="flex flex-1 overflow-hidden">
       {/* Sidebar */}
-      <div className="w-72 bg-white p-5 flex flex-col gap-3 overflow-auto shadow-md">
-        <div
-          className="cursor-pointer hover:text-[#2F80ED] flex gap-5 items-center hover:bg-[#2f81ed25] rounded-lg p-3"
-          onClick={() => handleShowPanels(0)}
-        >
-          <BsPeopleFill size={30} />
-          <p>Students</p>
-        </div>
-        <div
-          className="cursor-pointer flex gap-5 items-center hover:text-[#2F80ED] hover:bg-[#2f81ed25] rounded-lg p-3"
-          onClick={() => handleShowPanels(1)}
-        >
-          <RiDashboardFill size={30} />
-          <p>Dashboard</p>
-        </div>
-        <div
-          className="cursor-pointer flex gap-5 items-center hover:text-[#2F80ED] hover:bg-[#2f81ed25] rounded-lg p-3"
-          onClick={() => handleShowPanels(2)}
-        >
-          <IoMdCreate size={30} />
-          <p>Create</p>
-        </div>
-        <div
-          className="cursor-pointer flex gap-5 items-center hover:text-[#2F80ED] hover:bg-[#2f81ed25] rounded-lg p-3"
-          onClick={() => handleShowPanels(3)}
-        >
-          <RiSettings5Fill size={30} />
-          <p>Manage</p>
-        </div>
-        <div
-          className="cursor-pointer flex gap-5 items-center hover:text-[#2F80ED] hover:bg-[#2f81ed25] rounded-lg p-3"
-          onClick={() => handleShowPanels(4)}
-        >
-          <GrScorecard size={30} />
-          <p>Score</p>
-        </div>
-        <div
-          className="cursor-pointer flex gap-5 items-center hover:text-[#2F80ED] hover:bg-[#2f81ed25] rounded-lg p-3"
-          onClick={() =>{
-            navigate("/present",{state:{score:scoreData}})
-          } }
-        >
-          <GrScorecard size={30} />
-          <p>Presentation</p>
-        </div>
-        <div
-          className="cursor-pointer hover:text-[#2F80ED] flex gap-5 items-center hover:bg-[#2f81ed25] rounded-lg p-3"
-          onClick={() => handleShowPanels(5)}
-        >
-          <MdFeedback size={30} />
-          <p>Feed Backs</p>
-        </div>
-      </div>
+      <Sider collapsible width={288} className="">
+  <Menu
+    mode="inline"
+    style={{ height: "100%", borderRight: 0 }}
+  >
+    <Menu.Item key="6" icon={<MdSettingsApplications size={30} />} onClick={() => handleShowPanels(6)}>
+      General
+    </Menu.Item>
+    <Menu.Item key="7" icon={<RiRegisteredFill size={30} />} onClick={() => handleShowPanels(7)}>
+      Registered Students
+    </Menu.Item>
+    <Menu.Item key="0" icon={<BsPeopleFill size={30} />} onClick={() => handleShowPanels(0)}>
+      Students
+    </Menu.Item>
+    <Menu.Item key="1" icon={<RiDashboardFill size={30} />} onClick={() => handleShowPanels(1)}>
+      Dashboard
+    </Menu.Item>
+    <Menu.Item key="2" icon={<IoMdCreate size={30} />} onClick={() => handleShowPanels(2)}>
+      Create
+    </Menu.Item>
+    <Menu.Item key="3" icon={<RiSettings5Fill size={30} />} onClick={() => handleShowPanels(3)}>
+      Manage
+    </Menu.Item>
+    <Menu.Item key="4" icon={<GrScorecard size={30} />} onClick={() => handleShowPanels(4)}>
+      Score
+    </Menu.Item>
+    <Menu.Item
+      key="presentation"
+      icon={<GrScorecard size={30} />}
+      onClick={() => navigate("/present",{state:{score:scoreData}})}
+    >
+      Presentation
+    </Menu.Item>
+    <Menu.Item key="5" icon={<MdFeedback size={30} />} onClick={() => handleShowPanels(5)}>
+      Feed Backs
+    </Menu.Item>
+  </Menu>
+</Sider>
 
       {/* Main Content */}
       <div className="flex-1 p-5 overflow-auto">
+        {showPanels[7] && (
+          <div className="w-full bg-white p-5 rounded-lg shadow-md">
+            <Registered/>
+          </div>
+        )}
+        {showPanels[6] && (
+          <div className="w-full bg-white p-5 rounded-lg shadow-md">
+            <General/>
+          </div>
+        )}
         {showPanels[0] && (
           <div className="w-full bg-white p-5 rounded-lg shadow-md">
             <DisplayUsers

@@ -1,9 +1,54 @@
-import { get, ref, serverTimestamp, set, update } from "firebase/database";
+import { equalTo, get, orderByChild, push, query, ref, serverTimestamp, set, update } from "firebase/database";
 import { FormData } from "../../Components/Form";
 import { db } from "../firebase";
 
 import { answerType, FeedbackType, Level, questionType } from "../../types/QuestionType";
 import { ScoreType } from "../../Pages/Score";
+import { RegisterationData } from "../../Pages/Registration";
+export async function getRegistrations(){
+    try{
+        const regRef = ref(db,'registrations');
+
+        const regSnapShot = await get(regRef);
+        if(regSnapShot.exists())
+        {
+            return Object.values(regSnapShot.val());
+        }
+        else
+        {
+            return []
+        }
+    }
+    catch(error){
+        console.log(error);
+        return []
+    }
+}
+export async function addRegistration(formData:RegisterationData){
+    try {
+        const userRef = ref(db,`registrations`);
+        const newRegRef = push(userRef);
+
+        const emailQuery = query(userRef, orderByChild('email'), equalTo(formData.email));
+        const snapshot = await get(emailQuery);
+        if(snapshot.exists())
+        {
+            throw new Error("Already There")
+        }
+        else{
+            await set(newRegRef,{
+                    ...formData,
+                    timestamp: serverTimestamp()
+            });
+
+            console.log("Registration successfull successfully");
+        }
+
+        
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 export async function addData(formData:FormData){
     try {

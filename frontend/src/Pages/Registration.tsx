@@ -1,40 +1,36 @@
 import Lottie from "lottie-react";
 import React, { useState } from "react";
 import formAni from "../assets/animations/form.json";
-import { addData } from "../Database/functions/addData";
+import {  addRegistration } from "../Database/functions/addData";
 import { ToastContainer } from "react-toastify";
 import { Modal } from "antd";
 
-export interface FormData {
+export interface RegisterationData {
   college: string;
-  name: string;
-  rollNumber: string;
   className: string;
   email: string;
   mobile: string;
   timestamp?: object;
 }
 export interface Participants {
-  p1: string;
-  p2: string;
-  rn1: string;
-  rn2: string;
+  Participant1: string;
+  Participant2: string;
+  RollNo1: string;
+  RollNo2: string;
 }
 
 const Registration = () => {
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<RegisterationData>({
     college: "",
-    name: "",
-    rollNumber: "",
     className: "",
     email: "",
     mobile: "",
   });
   const [ParticipantData, setParticipantData] = useState<Participants>({
-    p1: "",
-    p2: "",
-    rn1: "",
-    rn2: "",
+    Participant1: "",
+    Participant2: "",
+    RollNo1: "",
+    RollNo2: "",
   });
   const [formSubmitted, setFormSubmitted] = useState<boolean>(() => {
     const temp = localStorage.getItem("formSubmitted");
@@ -60,29 +56,31 @@ const Registration = () => {
 
   const doSubmit = async () => {
     try {
-      const pName = `${ParticipantData.p1} & ${ParticipantData.p2}`;
-      const pRollNo = `${ParticipantData.rn1} & ${ParticipantData.rn2}`;
-      const updatedData = { ...formData, name: pName, rollNumber: pRollNo };
-
-      await addData(updatedData);
-
+      const newData = {
+        ...formData,
+        teamMembers:{...ParticipantData},
+        paymentInfo:{
+          amountPaid:"pending",
+          paymentMode:"offline",
+          paymentFrom:"",
+          paymentTimestamp:0,
+        }
+        
+      }
+      await addRegistration(newData);
       setFormSubmitted(true);
-      localStorage.setItem("formSubmitted", "true");
-      localStorage.setItem("userData", JSON.stringify(updatedData));
 
       setFormData({
         college: "",
-        name: "",
-        rollNumber: "",
         className: "",
         email: "",
         mobile: "",
       });
       setParticipantData({
-        p1: "",
-        p2: "",
-        rn1: "",
-        rn2: "",
+        Participant1: "",
+        Participant2: "",
+        RollNo1: "",
+        RollNo2: "",
       });
     } catch (error) {
       console.error("Failed to submit form data:", error);
@@ -150,8 +148,8 @@ const Registration = () => {
             </label>
             <input
               type="text"
-              name="p1"
-              value={ParticipantData.p1}
+              name="Participant1"
+              value={ParticipantData.Participant1}
               onChange={handleParticipantChange}
               className="block w-full border-gray-300 rounded-lg px-4 py-2 border-2 focus:ring-2 focus:ring-green-400 outline-none"
               required
@@ -165,8 +163,8 @@ const Registration = () => {
             </label>
             <input
               type="text"
-              name="rn1"
-              value={ParticipantData.rn1}
+              name="RollNo1"
+              value={ParticipantData.RollNo1}
               onChange={handleParticipantChange}
               className="block w-full border-gray-300 rounded-lg px-4 py-2 border-2 focus:ring-2 focus:ring-green-400 outline-none"
               required
@@ -180,8 +178,8 @@ const Registration = () => {
             </label>
             <input
               type="text"
-              name="p2"
-              value={ParticipantData.p2}
+              name="Participant2"
+              value={ParticipantData.Participant2}
               onChange={handleParticipantChange}
               className="block w-full border-gray-300 rounded-lg px-4 py-2 border-2 focus:ring-2 focus:ring-green-400 outline-none"
               required
@@ -195,8 +193,8 @@ const Registration = () => {
             </label>
             <input
               type="text"
-              name="rn2"
-              value={ParticipantData.rn2}
+              name="RollNo2"
+              value={ParticipantData.RollNo2}
               onChange={handleParticipantChange}
               className="block w-full border-gray-300 rounded-lg px-4 py-2 border-2 focus:ring-2 focus:ring-green-400 outline-none"
               required
