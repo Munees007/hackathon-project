@@ -5,6 +5,14 @@ import { db } from "../firebase";
 import { answerType, FeedbackType, Level, questionType } from "../../types/QuestionType";
 import { ScoreType } from "../../Pages/Score";
 import { RegisterationData } from "../../Pages/Registration";
+import AES from "crypto-js/aes";
+import Utf8 from "crypto-js/enc-utf8";
+
+export const decryptPass = (encrypt:string)=>{
+    const bytes = AES.decrypt(encrypt, import.meta.env.VITE_APP_SECRETKEY);
+    const original = bytes.toString(Utf8);
+    return original
+}
 export async function getRegistrations(){
     try{
         const regRef = ref(db,'registrations');
@@ -50,32 +58,50 @@ export async function addRegistration(formData:RegisterationData){
     }
 }
 
-export async function addData(formData:FormData){
-    try {
-        const roll = formData.rollNumber;
-        
-        const userRef = ref(db,`users/${roll}`);
+export async function addData(formData: FormData) {
+  try {
+    const lotNo = formData.lotNo;
+    const loginRef = ref(db, `registrations`);
+
+    const lotQuery = query(
+      loginRef,
+      orderByChild("lotNo"),
+      equalTo(formData.lotNo)
+    );
+
+    const userData = await get(lotQuery);
+    if (userData.exists()) {
+      const data = userData.val();
+      const original = decryptPass(data.pass);
+      if (original == formData.pass) {
+        const userRef = ref(db, `users/${lotNo}`);
 
         const userSnapShot = await get(userRef);
-        if(userSnapShot.exists())
-        {
-            throw new Error("Already There")
+        if (userSnapShot.exists()) {
+          return {status:true,toast:"Login Success",toastType:"success"}
+        } else {
+          await set(userRef, {
+            formData: {
+              ...formData,
+              breakTime: false,
+              timestamp: serverTimestamp(),
+            },
+          });
+          console.log("form submitted successfully");
+          return {status:true,toast:"Login Success",toastType:"success"}
+          
         }
-        else{
-            await set(userRef,{ 
-                formData:{
-                    ...formData,
-                    timestamp: serverTimestamp()
-                } 
-            });
-
-            console.log("form submitted successfully");
-        }
-
-        
-    } catch (error) {
-        console.log(error);
+      } else {
+        return {status:false,toast:"Invalid Credentials",toastType:"error"}
+      }
     }
+    else{
+        return {status:false,toast:"Not Registered",toastType:"info"}
+    }
+  } catch (error) {
+    console.log(error);
+    return {status:false,toast:`${error}`,toastType:"error"}
+  }
 }
 export async function addTimestampsToExistingUsers(): Promise<void> {
     try {
@@ -113,9 +139,9 @@ export async function addCodeData(codeData:answerType){
     try {
         const userData = localStorage.getItem("userData");
         const data = JSON.parse(userData!);
-        const roll = data.rollNumber;
+        const lotNo = data.lotNo;
 
-        const userRef = ref(db,`users/${roll}`);
+        const userRef = ref(db,`users/${lotNo}`);
 
         await update(userRef,{codeData});
 
@@ -182,7 +208,7 @@ export async function setTime(val:number){
 
 export async function getTime():Promise<number>{
     try {
-        const userRef = ref(db,'time');
+        const userRef = ref(db,'times');
 
         const userSnapShot = await get(userRef);
 

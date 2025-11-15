@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { Level } from "../types/QuestionType"
 import { deleteQuestionFromLevel, getLevelsData } from "../Database/functions/addData";
 import { RiDeleteBin6Fill } from "react-icons/ri";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/ReactToastify.min.css"
 import { DisplayTestCase } from "./DisplayTestCase";
 interface DisplayLevelProps{
@@ -104,7 +104,6 @@ const ManageQuestions = () =>{
                 }
             </>
       )}
-      <ToastContainer/>
         </div>
     )
 }

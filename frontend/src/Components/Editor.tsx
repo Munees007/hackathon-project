@@ -3,7 +3,7 @@ import "../Modules/language";
 import "../Modules/themes";
 import React, { useEffect, useState } from "react";
 import DropDown from "./DropDown";
-import { toast, ToastContainer } from "react-toastify";
+import { toast} from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
 import { VscCheck, VscPlay } from "react-icons/vsc";
 import Lottie from "lottie-react";
@@ -15,6 +15,17 @@ import { answerLevel, answerType, Level, testCaseResult } from "../types/Questio
 import { addCodeData } from "../Database/functions/addData";
 import { useTestCaseExecutor } from "../Components/useTestCaseExecuter";
 import { TestCase } from "./TestCase";
+import { questions } from "../Modules/questions";
+import { onValue, ref } from "firebase/database";
+import { db } from "../Database/firebase";
+
+export const getTimeOfLevel = (levelIndex:number) =>
+{
+  const temp:any = JSON.parse(localStorage.getItem("dbTime")!)
+  const key: string = `Level${levelIndex}Time`
+  
+  return temp[key]
+}
 export const getCurrentLevelIndex = () => {
   const temp: number = parseInt(localStorage.getItem("LevelIndicator")!) || 0;
   return temp;
@@ -90,7 +101,7 @@ const Editor: React.FC<EditorProps> = ({
   useEffect(() => {
     const temp = localStorage.getItem("gameover") || "false";
     const timer = localStorage.getItem("timer") || (60*40).toString();
-    if (temp !== "false" || timer === "0") {
+    if (temp !== "false" || timer === "0" && getCurrentLevelIndex() == questions.length -1) {
       navigate("/thankYou");
     }
   }, [navigate]);
@@ -100,9 +111,9 @@ const Editor: React.FC<EditorProps> = ({
     if (temp) {
       return parseInt(temp);
     } else {
-      const dbTime = localStorage.getItem("dbTime");
-      localStorage.setItem("timer", dbTime ? dbTime : (60 * 40).toString());
-      return dbTime ? parseInt(dbTime) : 60 * 40; // time in seconds
+      const dbTime = getTimeOfLevel(getCurrentLevelIndex());
+      localStorage.setItem("timer",  dbTime);
+      return dbTime // time in seconds
     }
   });
   const [currentLevelIndex, setCurrentLevelIndex] = useState<number>(() => {
@@ -154,15 +165,6 @@ const Editor: React.FC<EditorProps> = ({
     }
     showLoading(false);
   };
-  const [breakTime, setBreakTime] = useState<number>(() => {
-    const temp = localStorage.getItem("breakTime");
-    if (temp) {
-      return parseInt(temp);
-    } else {
-      localStorage.setItem("breakTime", (60 * 0).toString());
-      return 60 * 0;
-    }
-  });
   const formatTime = (seconds: number) => {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
@@ -170,39 +172,30 @@ const Editor: React.FC<EditorProps> = ({
     return `${hours}h ${minutes}m ${remainingSeconds}s`;
   };
 
-  const formatBreakTime = (seconds: number) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes}:${remainingSeconds}`;
-  };
-  const [breakTimer, setBreakTimer] = useState<boolean>(() => {
-    const temp = localStorage.getItem("breakTimer");
-    if (temp === "true") {
-      return true;
-    } else {
-      localStorage.setItem("breakTimer", "false");
-      return false;
-    }
-  });
-  useEffect(() => {
-    if (!breakTimer) return;
-    let handleBreakTimer: NodeJS.Timeout;
-    handleBreakTimer = setInterval(() => {
-      setBreakTime((preValue) => preValue - 1);
-      localStorage.setItem("breakTime", breakTime.toString());
-    }, 1000);
-    if (breakTime <= 0) {
-      localStorage.setItem("breakTime", "0");
-      localStorage.setItem("breakTimer", "false");
-      setTimer(timer - 2);
-      localStorage.setItem("timer", (timer - 2).toString());
-      setTimerRunning(true);
-      setBreakTimer(false);
-    }
+  const [breakTimer, setBreakTimer] = useState<boolean>(false);
+  
 
-    return () => clearInterval(handleBreakTimer);
-  }, [breakTimer, breakTime]);
+  useEffect(()=>{
+    const userData = localStorage.getItem("UserData")
+    const user = JSON.parse(userData!)
 
+    const breakRef = ref(db,`users/${user.lotNo}/breakTime`)
+
+    const unsubscribe = onValue(breakRef,(snapshot)=>{
+      const value = snapshot.val()
+
+      if(value == true)
+      {
+        setBreakTimer(true)
+      }
+      else
+      {
+        setBreakTimer(false)
+      }
+    })
+
+    return ()=>  unsubscribe();
+  },[])
 
   useEffect(()=>{
       const shortCuts = (e: KeyboardEvent) => {
@@ -627,7 +620,6 @@ const Editor: React.FC<EditorProps> = ({
         </p>
         <div className="absolute top-36 flex flex-col bgBreakTimerC h-72 w-72 items-center justify-center">
           <p className="text-4xl  mt-8 mr-4 text-cyan-300 uppercase font-bold font-Orbiton">
-            {formatBreakTime(breakTime)}
           </p>
         </div>
       </div>
@@ -801,8 +793,7 @@ const Editor: React.FC<EditorProps> = ({
 </div>
 
       
-            
-      <ToastContainer position="top-right" stacked />
+          
        <iframe
         ref={iFrameRef}
         height="450px"

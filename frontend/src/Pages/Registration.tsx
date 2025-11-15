@@ -2,7 +2,6 @@ import Lottie from "lottie-react";
 import React, { useState } from "react";
 import formAni from "../assets/animations/form.json";
 import {  addRegistration } from "../Database/functions/addData";
-import { ToastContainer } from "react-toastify";
 import { Modal } from "antd";
 
 export interface RegisterationData {
@@ -272,8 +271,6 @@ const Registration = () => {
           {formSubmitted ? "Already Registered" : "Submit"}
         </button>
       </form>
-
-      <ToastContainer />
     </div>
   );
 };

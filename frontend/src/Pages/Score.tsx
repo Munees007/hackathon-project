@@ -6,7 +6,7 @@ import { Button,Select, Spin, Table, TableProps } from 'antd';
 import {  GenerateparticipantsScore } from '../Functions/GeneratePDF';
 import { FormData } from '../Components/Form';
 import { AddScore, fetchScoreData } from "../Database/functions/addData";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 interface ScoreUsersProps {
     userData: userDataType[],
     levelData: Level[],
@@ -328,7 +328,7 @@ const Score: React.FC<ScoreUsersProps> = ({ userData, levelData }) => {
             <div className="flex justify-end w-full">
                 <Button type="primary" size="middle" onClick={handleSubmit}>Submit</Button>
             </div>
-            <ToastContainer position="top-center"/>
+
         </div>
     );
 };

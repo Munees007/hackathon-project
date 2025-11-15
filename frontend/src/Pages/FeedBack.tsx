@@ -4,7 +4,7 @@ import { FeedbackType } from "../types/QuestionType";
 import { FormData } from "../Components/Form";
 import { getDatabase, ref, set } from "firebase/database";
 import { app } from "../Database/firebase";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 const { TextArea } = Input;
@@ -171,7 +171,6 @@ export const FeedBack:React.FC<FeedBackProps> = ({isView,feedBackData}) => {
       <span className="absolute bottom-2 right-3 text-[10px] text-white opacity-15 select-none">
         Developed by Munees
       </span>
-      <ToastContainer position="top-center" />
     </div>
   );
 };

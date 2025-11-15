@@ -4,7 +4,7 @@ import "../Modules/themes";
 import { VscArrowLeft, VscArrowRight } from "react-icons/vsc";
 import "../Modules/questions";
 import Question from "../Components/Question";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
 import Lottie from "lottie-react";
 import normalLoading from "../assets/animations/normalLoading.json";
@@ -270,7 +270,6 @@ const CodeSpace = () => {
             </span>
           </div>
           
-          <ToastContainer />
         </div>
       ) : (
         <div

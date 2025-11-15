@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { fetchScoreData, getData, getFlag, getLevelsData, setFlag } from "../Database/functions/addData";
 import { FormData } from "../Components/Form";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import DisplayUsers from "../Components/DisplayUsers";
 import { answerType, Level } from "../types/QuestionType";
 import CreateQuestions from "../Components/CreateQuestions";
@@ -245,7 +245,6 @@ const Admin = () => {
       </div>
     </div>
   )}
-  <ToastContainer position="top-center" />
 </div>
 
   );

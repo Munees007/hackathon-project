@@ -3,7 +3,7 @@ import MatrixEffect from "../Components/MatrixEffect";
 import {enterFullScreen} from "../Functions/FullScreen"
 import { useNavigate } from "react-router-dom";
 import Form from "../Components/Form";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
 import { getFlag, getTime } from "../Database/functions/addData";
 import "../../public/assets/images/Bg1.jpg"
@@ -16,6 +16,8 @@ const Home = () =>{
     
         return temp ? Boolean(temp) : false;
       })
+
+
     const backGround = ["Bg1.jpg", "bg2.png"];
     const navigate =  useNavigate();
     const dateObj = new Date();
@@ -24,9 +26,8 @@ const Home = () =>{
     console.log("Fetched time from DB:", time);
 
     try {
-      const numericTime = Number(time);
-      const finalTime = numericTime > 0 ? numericTime : 60 * 40;
-      localStorage.setItem("dbTime", finalTime.toString());
+      const finalTime = JSON.stringify(time)
+      localStorage.setItem("dbTime", finalTime);
       console.log("Stored dbTime in localStorage:", finalTime);
     } catch (err) {
       console.error("Failed to set localStorage:", err);
@@ -107,10 +108,9 @@ useEffect(() => {
              <button onClick={()=>handleImageChange('next')} className="bg-green-500 font-bold uppercase tracking-wider hover:scale-105 active:95 hover:bg-green-400 animate-pulse w-fit border-2 border-white rounded-md shadow-lg shadow-black h-fit px-10 py-3 font-Orbiton text-2xl ">Register</button>
           </div>
         </div>
-}       
+}         
         {/* <img src="./src/assets/images/btn.png" title="Start" onClick={handleChangeRoute} className="absolute bottom-5 right-8 w-32 hover:scale-110 cursor-pointer active:scale-90"></img> */}
         <MatrixEffect/>
-        <ToastContainer position="top-center"/>
       </div>
     );
 }

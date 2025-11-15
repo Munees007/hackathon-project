@@ -6,7 +6,7 @@ import { Button, Table, TableProps } from 'antd';
 import { GenerateparticipantsList } from '../Functions/GeneratePDF';
 import { FormData } from './Form';
 import { getTime, setTime } from "../Database/functions/addData";
-import { toast, ToastContainer } from "react-toastify";
+import { toast} from "react-toastify";
 import "react-toastify/ReactToastify.min.css"
 interface DisplayUsersProps {
     userData: userDataType[],
@@ -418,7 +418,6 @@ const DisplayUsers: React.FC<DisplayUsersProps> = ({ userData, levelData, displa
                     </div>
                 ))} */}
                 <Table columns={!display ? columns : DashColumns} dataSource={sortedData}/>
-                <ToastContainer></ToastContainer>
             </div>
         </div>
     );

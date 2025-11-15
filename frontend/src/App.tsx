@@ -16,6 +16,7 @@ import RulesCard from './Components/RulesCard'
 import PresentationPage from './Components/PresentationPage'
 import { CarGame } from './Pages/CarGame'
 import Registration from './Pages/Registration'
+import { ToastContainer } from 'react-toastify'
 
 function App() {
   const location = useLocation();
@@ -83,7 +84,7 @@ function App() {
             <Route path="/car_game" element={<CarGame/>}/>
             <Route path="/registration" element={<Registration/>}/>
         </Routes>
-      
+        <ToastContainer/>
     </div>
   )
 }

@@ -1,0 +1,66 @@
+.blank {
+  border: 2px dashed #3b82f6;
+  background-color: #e0f2fe;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 28px;
+  margin: 0 4px;
+  border-radius: 6px;
+  vertical-align: middle;
+  font-weight: 600;
+  color: #1e3a8a;
+  transition: all 0.2s ease;
+}
+
+
+.blank:hover {
+  background-color: #bae6fd; /* brighter blue on hover */
+  transform: scale(1.03);
+  cursor: pointer;
+}
+
+/* 🧠 Code box styling */
+.parent {
+  white-space: pre-wrap;
+  font-family: 'Fira Code', monospace; /* developer font */
+  color: white;
+  padding: 16px 20px;
+  font-size: 1.2rem;
+  width: fit-content;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  line-height: 1.6;
+}
+
+/* 💫 Optional glowing focus effect when blank clicked */
+.blank:active {
+  border-color: #2563eb;
+  background-color: #bfdbfe;
+  box-shadow: 0 0 8px rgba(37, 99, 235, 0.4);
+}
+
+.optionBtn {
+  background-color: #93c5fd; /* solid light blue base */
+  color: #111827;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.optionBtn:hover {
+  background-color: #60a5fa; /* slightly darker blue */
+  transform: scale(1.05);
+}
+
+.optionBtn:active {
+  background-color: #86efac; /* light green */
+  transform: scale(0.9);
+}
+

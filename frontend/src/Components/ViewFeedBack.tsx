@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FeedbackType } from "../types/QuestionType";
 import { getFeedbacks } from "../Database/functions/addData";
-import { toast, ToastContainer } from "react-toastify";
+import { toast} from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
 import { Modal, Table } from "antd";
 import { FeedBack } from "../Pages/FeedBack";
@@ -87,7 +87,6 @@ export const ViewFeedBack = () =>{
             >
                 <FeedBack isView={true} feedBackData={currentFeedback!}></FeedBack>
             </Modal>
-            <ToastContainer></ToastContainer>
         </div>
     );
 }
