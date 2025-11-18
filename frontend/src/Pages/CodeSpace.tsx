@@ -13,7 +13,7 @@ import { MdDoubleArrow } from "react-icons/md";
 import FullQuestion from "../Components/FullQuestion";
 import { answerType, Level } from "../types/QuestionType";
 import { addCodeData, getLevelsData } from "../Database/functions/addData";
-import { getCurrentLevelIndex } from "../Components/Editor";
+import { getCurrentLevelIndex, updateBreak } from "../Components/Editor";
 
 const CodeSpace = () => {
   const navigate = useNavigate();
@@ -148,6 +148,7 @@ const CodeSpace = () => {
         localStorage.setItem("LevelIndicator", level.toString());
         handleQuestion(1,false,false,level);
         toast.success(`Level${level-1} Completed`);
+        await updateBreak(true);
       } else {
         localStorage.setItem("LevelIndicator", (level + 1).toString());
         localStorage.setItem("gameover", "true");

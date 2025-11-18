@@ -16,9 +16,11 @@ import { addCodeData } from "../Database/functions/addData";
 import { useTestCaseExecutor } from "../Components/useTestCaseExecuter";
 import { TestCase } from "./TestCase";
 import { questions } from "../Modules/questions";
-import { onValue, ref } from "firebase/database";
+import { get, onValue, ref, update } from "firebase/database";
 import { db } from "../Database/firebase";
+import { motion } from "framer-motion";
 
+import timerAnimation from "../assets/animations/The panda eats popcorn.json"
 export const getTimeOfLevel = (levelIndex:number) =>
 {
   const temp:any = JSON.parse(localStorage.getItem("dbTime")!)
@@ -44,6 +46,17 @@ export const formatTime = (seconds: number) => {
   const remainingSeconds = seconds % 60;
   return `${minutes}m ${remainingSeconds}s`;
 };
+export const updateBreak = async(val:boolean) =>{
+  const userData = localStorage.getItem("userData")
+  const user = JSON.parse(userData!)
+
+    const breakRef = ref(db,`users/${user.lotNo}`)
+    const data = await get(breakRef)
+    if(data.exists())
+    {
+      await update(breakRef,{breakTime:val})
+    }
+}
 const codeDataToDB = async () => {
   const data = localStorage.getItem("codeData");
 
@@ -100,7 +113,7 @@ const Editor: React.FC<EditorProps> = ({
   });
   useEffect(() => {
     const temp = localStorage.getItem("gameover") || "false";
-    const timer = localStorage.getItem("timer") || (60*40).toString();
+    const timer = localStorage.getItem("timer") || getTimeOfLevel(getCurrentLevelIndex());
     if (temp !== "false" || timer === "0" && getCurrentLevelIndex() == questions.length -1) {
       navigate("/thankYou");
     }
@@ -176,10 +189,10 @@ const Editor: React.FC<EditorProps> = ({
   
 
   useEffect(()=>{
-    const userData = localStorage.getItem("UserData")
+    const userData = localStorage.getItem("userData")
     const user = JSON.parse(userData!)
-
-    const breakRef = ref(db,`users/${user.lotNo}/breakTime`)
+    console.log(`User lotNo = ${user.lotNo}`)
+    const breakRef = ref(db,`users/${user?.lotNo}/breakTime`)
 
     const unsubscribe = onValue(breakRef,(snapshot)=>{
       const value = snapshot.val()
@@ -230,7 +243,10 @@ const Editor: React.FC<EditorProps> = ({
     await increaseLevel();
     const temp = parseInt(localStorage.getItem("MaxLength")!);
     if (getCurrentLevelIndex() < temp) {
+      console.log("MaxLength" + temp)
+      console.log(getCurrentLevelIndex())
       setCurrentLevelIndex(getCurrentLevelIndex());
+      setTimer(getTimeOfLevel(getCurrentLevelIndex()))
     }
     setLevelIncrease(false);
     setCode("");
@@ -303,15 +319,27 @@ const Editor: React.FC<EditorProps> = ({
 
   setTimer(0);
   setTimerRunning(false);
-  setGameOver(true);
-  localStorage.setItem("timer", "0");
-  localStorage.setItem("gameover", "true");
+  
 
   showLoading(false);
-  navigate("/feedback");
+  if(currentLevelIndex == questions.length -1)
+  {
+    setGameOver(true);
+    localStorage.setItem("timer", "0");
+    localStorage.setItem("gameover", "true");
+    navigate("/feedback");
+  }
+  else
+  {
+      await increaseLevel();
+      setTimer(getCurrentLevelIndex() + 1)
+  }
+  
 };
 
+
   useEffect(() => {
+    if(breakTimer) return;
     if (!timerRunning) return;
     if (!timerRunning && gameOver) return;
     const handleTimer = setInterval(() => {
@@ -323,13 +351,6 @@ const Editor: React.FC<EditorProps> = ({
       handleTimeUp();
       
     }
-
-    if (timer === 5400) {
-      localStorage.setItem("breakTimer", "true");
-      setTimerRunning(false);
-      setBreakTimer(true);
-    }
-
     if (currentLevel?.questions?.length === getScore()) {
       setLevelIncrease(true);
     }
@@ -612,17 +633,54 @@ const Editor: React.FC<EditorProps> = ({
   };
   if (breakTimer) {
     return (
-      <div className="w-full fixed bgBreakTimer text-black flex flex-col justify-center items-center h-screen">
-        <p className="text-center font-semibold p-2 absolute top-[27rem] text-2xl text-white bg-black/70 rounded-lg">
-          Halfway through, it's time to rest,
-          <br />
-          15 minutes to recharge and do your best!
-        </p>
-        <div className="absolute top-36 flex flex-col bgBreakTimerC h-72 w-72 items-center justify-center">
-          <p className="text-4xl  mt-8 mr-4 text-cyan-300 uppercase font-bold font-Orbiton">
-          </p>
-        </div>
-      </div>
+     <div style={{zIndex:50}} className="min-h-screen w-full relative bg-[#0b1020] flex items-center justify-center">
+  {/* Background overlay */}
+  <div
+    className="absolute inset-0"
+    style={{
+      backgroundImage: `
+        repeating-conic-gradient(
+          from 2deg at 50% 35%,
+          rgba(99,102,241,0.28) 0deg 8deg,
+          rgba(99,102,241,0) 8deg 14deg
+        ),
+        radial-gradient(ellipse 80% 50% at 50% 35%, rgba(56,189,248,0.18), transparent 60%),
+        radial-gradient(ellipse 120% 60% at 50% 0%, rgba(236,72,153,0.12), transparent 65%)
+      `,
+      backgroundBlendMode: "screen, normal, normal",
+    }}
+  />
+
+  {/* Content */}
+  <motion.div
+  className="relative z-10 flex flex-col items-center justify-center p-10 bg-[#111827]/70 rounded-3xl shadow-xl space-y-6 max-w-sm mx-auto"
+  initial={{ scale: 0.9, opacity: 0 }}
+  animate={{ scale: 1, opacity: 1 }}
+  transition={{ duration: 0.8, ease: "easeOut" }}
+>
+  {/* Lottie Animation */}
+  
+    <Lottie
+      animationData={timerAnimation}
+      loop={true}
+      className="w-[30rem]"
+      style={{ objectFit: "contain" }}
+    />
+  
+
+  {/* Title */}
+  <h1 className="text-4xl md:text-5xl font-bold text-[#63a5f1] text-center">
+    Take a Break!
+  </h1>
+
+  {/* Description */}
+  <p className="text-center text-lg md:text-xl text-white/80">
+    Relax, grab a snack, or stretch before continuing the hackathon.
+  </p>
+</motion.div>
+
+
+</div>
     );
   }
   return (

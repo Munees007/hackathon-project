@@ -60,19 +60,22 @@ export async function addRegistration(formData:RegisterationData){
 
 export async function addData(formData: FormData) {
   try {
-    const lotNo = formData.lotNo;
+    const lotNo = Number(formData.lotNo);
     const loginRef = ref(db, `registrations`);
-
+    console.log(typeof formData.lotNo)
     const lotQuery = query(
       loginRef,
       orderByChild("lotNo"),
-      equalTo(formData.lotNo)
+      equalTo(lotNo)
     );
 
     const userData = await get(lotQuery);
+    console.log(userData.exists())
     if (userData.exists()) {
-      const data = userData.val();
-      const original = decryptPass(data.pass);
+      const data = Object.values(userData.val())[0] as any;
+
+      console.log(data)
+      const original = decryptPass(data?.pass);
       if (original == formData.pass) {
         const userRef = ref(db, `users/${lotNo}`);
 
@@ -82,10 +85,11 @@ export async function addData(formData: FormData) {
         } else {
           await set(userRef, {
             formData: {
-              ...formData,
-              breakTime: false,
+              lotNo:lotNo,
+              
               timestamp: serverTimestamp(),
             },
+            breakTime: false,
           });
           console.log("form submitted successfully");
           return {status:true,toast:"Login Success",toastType:"success"}
@@ -107,7 +111,7 @@ export async function addTimestampsToExistingUsers(): Promise<void> {
     try {
       const usersRef = ref(db, `users`);
       const snapshot = await get(usersRef);
-  
+      
       if (snapshot.exists()) {
         const updates: { [key: string]: any } = {};
         snapshot.forEach((childSnapshot) => {
