@@ -14,9 +14,9 @@ import { FeedBack } from './Pages/FeedBack'
 import {LeaderBoard} from './Pages/LeaderBoard'
 import RulesCard from './Components/RulesCard'
 import PresentationPage from './Components/PresentationPage'
-import { CarGame } from './Pages/CarGame'
 import Registration from './Pages/Registration'
 import { ToastContainer } from 'react-toastify'
+import { BrainSpark } from './Pages/BrainSpark'
 
 function App() {
   const location = useLocation();
@@ -81,7 +81,7 @@ function App() {
             <Route path='/qn' element={<QuestionPage/>}/>
             <Route path="/rule" element={<RulesCard/>}/>
             <Route path='/present' element={<PresentationPage/>}/>
-            <Route path="/car_game" element={<CarGame/>}/>
+            <Route path="/brain_spark" element={<BrainSpark/>}/>
             <Route path="/registration" element={<Registration/>}/>
         </Routes>
         <ToastContainer/>

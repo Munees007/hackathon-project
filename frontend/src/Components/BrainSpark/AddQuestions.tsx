@@ -209,14 +209,15 @@ form={form}
               options: options,
               output: output,
             }}
+            
           />
         )}
 
         {type === "logic_riddle" && (
-          <RiddleLogic question={question} options={options} />
+          <RiddleLogic riddle={{question:question,options:options}}  />
         )}
 
-        {type === "map_algorithm" && <AlgorithmDrag algorithm={algorithm} />}
+        {type === "map_algorithm" && <AlgorithmDrag  algorithm={{algorithm:algorithm}} />}
         </div>
         </div>
        

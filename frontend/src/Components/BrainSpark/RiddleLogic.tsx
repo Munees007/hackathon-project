@@ -2,15 +2,25 @@ import { motion } from "framer-motion";
 import type { logic_riddle } from "../../types/BrainSparkType";
 
 
-
-export const RiddleLogic = ({ question, options }: logic_riddle) => {
+interface RiddleLogicProps
+{
+  riddle:logic_riddle,
+  changeQuestion?: (isCorrect:boolean) => Promise<void>
+}
+export const RiddleLogic = ({ riddle,changeQuestion }: RiddleLogicProps) => {
   const mindMazeRules: string[] = [
   "Each question presents a logical or analytical puzzle.",
   "Select the most appropriate answer from the given options.",
   "Think carefully — some questions may have tricky wording.",
-  "Each correct answer gives 10 points",
+  "Each correct answer gives 1 points",
   "Once an option is chosen, it cannot be changed."
 ];
+
+const submitAnswer = async (userAnswer:string) =>{
+  const res = riddle.answer == userAnswer
+
+  await changeQuestion!(res)
+}
   return (
     <div className="flex justify-center gap-5 w-full max-sm:flex-col max-sm:items-center max-sm:gap-3 max-sm:m-2">
       
@@ -28,16 +38,17 @@ export const RiddleLogic = ({ question, options }: logic_riddle) => {
         animate={{ scale: 1 }}
         transition={{ duration: 0.4 }}
       >
-        🧩 {question}
+        🧩 {riddle.question}
       </motion.h2>
 
       {/* Options */}
       <div className="grid grid-cols-2 gap-3">
-        {options.map((op, i) => (
+        {riddle.options.map((op, i) => (
           <motion.button
             key={i}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.9 }}
+            onClick={ async ()=>{await submitAnswer(op)}}
             className="optionBtn px-4 py-2 rounded-xl tracking-wider font-medium text-gray-700 bg-blue-100 hover:bg-blue-200 active:bg-green-300 transform transition-all duration-200 shadow-sm"
           >
             {op}

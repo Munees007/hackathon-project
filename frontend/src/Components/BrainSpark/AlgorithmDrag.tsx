@@ -3,13 +3,18 @@ import type { map_algorithm } from "../../types/BrainSparkType";
 import { BiDownArrowAlt, BiUpArrowAlt } from "react-icons/bi";
 import { motion, AnimatePresence } from "framer-motion";
 
-export const AlgorithmDrag = ({ algorithm }: map_algorithm) => {
+interface AlgorithmDragProps
+{
+  algorithm: map_algorithm,
+  changeQuestion?: (isCorrect:boolean) => Promise<void>
+}
+export const AlgorithmDrag = ({ algorithm,changeQuestion }: AlgorithmDragProps) => {
   const [data, setData] = useState<string[]>([]);
 const flowForgeRules: string[] = [
   "You will see a list of shuffled algorithm steps.",
   "Rearrange them into the correct logical order using the up and down arrows.",
   "Once satisfied, click the 'Submit Order' button to lock your answer.",
-  "Each correctly ordered algorithm awards 10 points.",
+  "Each correctly ordered algorithm awards 1 points.",
   "You can only submit once per question."
 ];
   const handleOrder = (order: "top" | "bottom", index: number) => {
@@ -31,9 +36,14 @@ const flowForgeRules: string[] = [
   };
 
   useEffect(() => {
-    setData(algorithm);
+    setData(algorithm.algorithm);
   }, [algorithm]);
 
+  const submitAnswer = async ()=>{
+    const res = algorithm.algorithm == data
+
+    await changeQuestion!(res)
+  }
   return (
     <div className="flex justify-center gap-5 w-full max-sm:flex-col max-sm:items-center max-sm:gap-3 max-sm:m-2">
     <div className="max-w-md p-6 rounded-2xl shadow-md border border-gray-200 flex flex-col">
@@ -69,7 +79,7 @@ const flowForgeRules: string[] = [
           </motion.div>
         ))}
       </AnimatePresence>
-      <button className="font-[Orbitron]  uppercase tracking-widest bg-green-500/40  py-2 mx-10 hover:scale-105 cursor-pointer active:bg-green-500/10 active:scale-95 hover:bg-purple-500/10 transition-all rounded-lg mt-2 backdrop-blur-[1px] text-white">Submit</button>
+      <button className="font-[Orbitron]  uppercase tracking-widest bg-green-500/40  py-2 mx-10 hover:scale-105 cursor-pointer active:bg-green-500/10 active:scale-95 hover:bg-purple-500/10 transition-all rounded-lg mt-2 backdrop-blur-[1px] text-white" onClick={submitAnswer}>Submit</button>
     </div>
     <div className="w-96  p-6 rounded-2xl text-white shadow-md border h-full border-gray-200">
           <p className="font-[Orbitron] font-bold uppercase tracking-widest text-xl">Instructions</p>

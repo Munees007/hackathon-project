@@ -26,4 +26,5 @@ export type QuestionItem = {
   output?: string;
   algorithm?: string[];
   correctOrder?: string[];
+  answer?:string;
 };
