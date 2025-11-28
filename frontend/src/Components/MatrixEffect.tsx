@@ -19,8 +19,14 @@ const MatrixEffect: React.FC = () => {
     const draw = () => {
       context.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
 
-      context.fillStyle = '#0F0'; // Green text
-      context.font = `${fontSize}px monospace`;
+      context.fillStyle = '#48cae4'; 
+context.font = `${fontSize}px monospace`;
+
+// Glow Effect
+context.shadowColor = '#FFFFFF'; // Glow color
+context.shadowBlur = 15;         // How strong the glow is
+context.shadowOffsetX = 0;       // Center glow
+context.shadowOffsetY = 0;
 
       for (let i = 0; i < drops.length; i++) {
         const text = String.fromCharCode(0x30A0 + Math.random() * 96);

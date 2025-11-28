@@ -1,16 +1,17 @@
-import Lottie from "lottie-react";
 import React, { useState } from "react";
-import formAni from "../assets/animations/form.json";
 import { addData } from "../Database/functions/addData";
 import {  toast} from "react-toastify";
-
+import { MdClose } from "react-icons/md";
+import {motion} from "framer-motion"
 export interface FormData {
   lotNo:number;
   pass:string;
   timestamp?:object
 }
 
-const Form = ({Submitted}:{Submitted:(e:boolean) => void}) => {
+const Form = ({Submitted,closeForm}:{
+  Submitted:(e:boolean) => void,
+  closeForm:() => void}) => {
   const [formData, setFormData] = useState<FormData>({
     lotNo:0,
     pass:""
@@ -78,19 +79,29 @@ const Form = ({Submitted}:{Submitted:(e:boolean) => void}) => {
   };
 
   return (
-    <div className="">
+    <motion.div 
+      initial={{
+        translateY: "100%"
+      }}
+      animate={{
+        translateY:"0"
+      }}
+      exit={{
+        translateY:"150%"
+      }}
+    >
       
       <form
         onSubmit={handleSubmit}
-        className="bg-white flex flex-col font-Orbiton tracking-widest relative w-[40rem] p-8 rounded-lg shadow-lg"
+        className="bg-white/10  text-white backdrop-blur-[5px] flex flex-col font-Orbiton tracking-widest relative w-[40rem] p-8 rounded-lg shadow-lg"
       >
-        <Lottie animationData={formAni} loop className="w-32 absolute -top-12 -left-10 -rotate-12 "/>
+        <MdClose onClick={closeForm} size={30} className="cursor-pointer absolute right-5 top-5 hover:scale-105 active:scale-95"/>
         <h2 className="text-2xl tracking-widest text-center font-semibold mb-4 uppercase font-Orbiton ">
           Login
         </h2>
         
         <div className="mb-4">
-          <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
+          <label htmlFor="name" className="block font-bold mb-2">
             Lot Number
           </label>
           <input
@@ -99,14 +110,14 @@ const Form = ({Submitted}:{Submitted:(e:boolean) => void}) => {
             name="lotNo"
             value={formData.lotNo}
             onChange={handleChange}
-            className="block w-full border-gray-300 rounded-lg px-4 py-2 border-2"
+            className="block w-full text-black border-gray-300 rounded-lg px-4 py-2 border-2"
             required
           />
         </div>
         <div className="mb-4">
           <label
             htmlFor="className"
-            className="block text-gray-700 font-bold mb-2"
+            className="block  font-bold mb-2"
           >
             Password
           </label>
@@ -116,7 +127,7 @@ const Form = ({Submitted}:{Submitted:(e:boolean) => void}) => {
             name="pass"
             value={formData.pass}
             onChange={handleChange}
-            className="block w-full border-gray-300 rounded-lg border-2 px-4 py-2"
+            className="block w-full text-black border-gray-300 rounded-lg border-2 px-4 py-2"
             required
           />
         </div>
@@ -127,7 +138,7 @@ const Form = ({Submitted}:{Submitted:(e:boolean) => void}) => {
           Login
         </button>
       </form>
-    </div>
+    </motion.div>
   );
 };
 

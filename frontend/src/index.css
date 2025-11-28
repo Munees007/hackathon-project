@@ -38,5 +38,18 @@
   background-image: url("/assets/images/adminbg.webp");
   background-size: cover;
 }
-
+.scale-down{
+    display: inline-block;
+    animation: textAni 1s ease-in-out;
+}
+@keyframes textAni {
+    0%{
+        transform: scale(1.4) rotateZ(45deg);
+        color: black;
+    }
+    100%{
+        
+        
+    }
+}
 
