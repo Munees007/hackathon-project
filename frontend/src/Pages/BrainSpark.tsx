@@ -5,18 +5,77 @@ import { getQuestions } from "../Database/brainspark";
 import { RiddleLogic } from "../Components/BrainSpark/RiddleLogic";
 import { AlgorithmDrag } from "../Components/BrainSpark/AlgorithmDrag";
 import { toast } from "react-toastify";
+import { formatTime, updateBreak } from "../Components/Editor";
+import { useNavigate } from "react-router-dom";
 
 export const BrainSpark = () => {
-  const [questions,setQuestions] = useState<QuestionItem[]>([])
+  const navigate = useNavigate()
+  const [questions,setQuestions] = useState<QuestionItem[]>(()=>{
+    const data = localStorage.getItem("brain_spark_qns") || null
+    if(data)
+    {
+      return JSON.parse(data)
+    }
+    return data
+  })
   const [index,setIndex] = useState<number>(0)
-
-  const [currentQuestion,setCurrentQuestion] = useState<QuestionItem | null>(null);
+  const [currentQuestion,setCurrentQuestion] = useState<QuestionItem | null>();
+  const [timer,setTimer] = useState<number>(()=>{
+    return parseInt(localStorage.getItem("bs_Timer") || "0")
+  })
+  const [timerRunning,setTimerRunning] = useState<boolean>(true)
+ function fisherYatesShuffle(arr:QuestionItem[]) {
+  	for (let i = arr.length - 1; i > 0; i--) {
+    	const j = Math.floor(Math.random() * (i + 1));
+    	[arr[i], arr[j]] = [arr[j], arr[i]];
+  	}
+  	return arr;
+}
+  const brain_spark_key = "brain_spark_qns"
+  const brain_spark_index = "bs_index"
+  const timeRef = "dbTime"
+  
+  const handleGameOver = async () =>{
+    setTimerRunning(false)
+    localStorage.setItem("Round1","completed")
+    await updateBreak(true)
+    navigate("/codespace")
+  }
+  useEffect(()=>{
+      if(!timerRunning) return
+      const interval = setInterval(()=>{
+        setTimer(prev=> prev-1)
+        localStorage.setItem("bs_Timer",(timer-1).toString())
+      },1000)
+      if(timer <=0)
+      {
+        handleGameOver()
+      }
+      
+      return () => clearInterval(interval)
+  },[timerRunning,timer])
   useEffect(()=>{
     const fetch = async () =>{
-      const temp:QuestionItem[] = await getQuestions();
-      setQuestions(temp);
+      const isDataNew = localStorage.getItem(brain_spark_key) || null
+      if(isDataNew == null)
+      {
+        const temp:QuestionItem[] = await getQuestions();
+        const shuffled = fisherYatesShuffle(temp)
+        setQuestions(shuffled);
+        setCurrentQuestion(shuffled[index])
 
-      setCurrentQuestion(temp[index])
+        localStorage.setItem(brain_spark_key,JSON.stringify(shuffled))
+        localStorage.setItem(brain_spark_index,index.toString())
+        let round1Time = JSON.parse(localStorage.getItem(timeRef)|| "")
+        setTimer(parseInt(round1Time.Round1Time))
+        localStorage.setItem("bs_Timer",round1Time.Round1Time.toString())
+      }
+      else
+      {
+        const i = parseInt(localStorage.getItem(brain_spark_index) || "0")
+        setIndex(i)
+        setCurrentQuestion(questions[i])
+      }
     }
     fetch()
     
@@ -25,15 +84,18 @@ export const BrainSpark = () => {
   const changeQuestion = async (isCorrect:boolean) =>{
     toast.info(isCorrect ? "Correct" : "inCorrect")
     setIndex(prev => {
+      localStorage.setItem(brain_spark_index, (prev+1).toString())
       setCurrentQuestion(questions[prev + 1])
       return prev + 1
     })
+    
   }
   return (
     <div className="min-h-screen w-full bg-[#020617] relative">
       <p className="font-[Orbitron] font-extrabold max-sm:relative max-sm:m-0 max-sm:ml-3 absolute top-0 m-2 text-2xl uppercase tracking-widest z-10 text-white">
         Brain Spark
       </p>
+      <p className="font-[Orbitron] font-extrabold max-sm:relative right-0 max-sm:m-0 max-sm:ml-3 absolute top-0 m-2 text-2xl uppercase tracking-widest z-10 text-white">{formatTime(timer)}</p>
       {/* Magenta Orb Grid Background */}
       <div
         className="absolute inset-0 z-0"

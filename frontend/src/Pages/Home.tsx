@@ -10,7 +10,8 @@ import "../../public/assets/images/Bg1.jpg";
 import RulesCard from "../Components/RulesCard";
 import { motion ,AnimatePresence} from "framer-motion";
 import { LetterJumpText } from "../Components/LetterJumpText";
-import logo from "../assets/images/Zynova transparent.png"
+import flexi from "../assets/animations/Flexi.json";
+import Lottie from "lottie-react";
 const Home = () => {
   const gridRef = useRef<HTMLDivElement | null>(null);
   const [formSubmitted, setFormSubmitted] = useState<boolean>(() => {
@@ -103,6 +104,9 @@ const Home = () => {
             Enter the Codeverse. Create Your Reality.
           </p>
           </div>
+          {
+            showLogin && <Lottie animationData={flexi} loop={true}/>
+          }
         <div className="w-full h-screen top-0 absolute flex justify-center items-center">
           <AnimatePresence>
         {!showLogin && ( formSubmitted ? (
