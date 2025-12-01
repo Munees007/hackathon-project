@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import { CodeSnippet } from "../Components/BrainSpark/CodeSnippet";
 import { QuestionItem } from "../types/BrainSparkType";
-import { getQuestions } from "../Database/brainspark";
+import { getQuestions, updateScore } from "../Database/brainspark";
 import { RiddleLogic } from "../Components/BrainSpark/RiddleLogic";
 import { AlgorithmDrag } from "../Components/BrainSpark/AlgorithmDrag";
-import { toast } from "react-toastify";
 import { formatTime, updateBreak } from "../Components/Editor";
 import { useNavigate } from "react-router-dom";
 
 export const BrainSpark = () => {
+  const bs_score = "bs_score";
   const navigate = useNavigate()
+  const [score,setScore] = useState<number>(()=>{
+    return parseInt(localStorage.getItem(bs_score) ?? "0")
+  })
   const [questions,setQuestions] = useState<QuestionItem[]>(()=>{
     const data = localStorage.getItem("brain_spark_qns") || null
     if(data)
@@ -47,7 +50,7 @@ export const BrainSpark = () => {
         setTimer(prev=> prev-1)
         localStorage.setItem("bs_Timer",(timer-1).toString())
       },1000)
-      if(timer <=0)
+      if(timer <=0 || index == questions.length)
       {
         handleGameOver()
       }
@@ -82,7 +85,12 @@ export const BrainSpark = () => {
   },[])
 
   const changeQuestion = async (isCorrect:boolean) =>{
-    toast.info(isCorrect ? "Correct" : "inCorrect")
+    if(isCorrect)
+    {
+      localStorage.setItem(bs_score,(score+1).toString())
+      await updateScore(score + 1)
+      setScore(prev => prev + 1)
+    }
     setIndex(prev => {
       localStorage.setItem(brain_spark_index, (prev+1).toString())
       setCurrentQuestion(questions[prev + 1])

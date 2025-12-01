@@ -40,8 +40,7 @@ const flowForgeRules: string[] = [
   }, [algorithm]);
 
   const submitAnswer = async ()=>{
-    const res = algorithm.algorithm == data
-
+    const res = algorithm.algorithm.map((value)=> value.trim().toLowerCase()) == data.map((value)=> value.trim().toLowerCase())
     await changeQuestion!(res)
   }
   return (

@@ -1,4 +1,4 @@
-import { get, ref } from "firebase/database";
+import { get, ref, update } from "firebase/database";
 import { QuestionItem, QuestionType } from "../types/BrainSparkType";
 import { db } from "./firebase";
 
@@ -37,4 +37,20 @@ export const getQuestions = async ():Promise<QuestionItem[]> =>{
     }
     return questions;
 
+}
+
+export const updateScore = async (score:number) =>{
+    try {
+            const userData = localStorage.getItem("userData");
+            const data = JSON.parse(userData!);
+            const lotNo = data.lotNo;
+    
+            const userRef = ref(db,`users/${lotNo}`);
+    
+            await update(userRef,{brainSparkScore: score});
+    
+            console.log("data submitted successfully");
+        } catch (error) {
+            console.log(error);
+        }
 }

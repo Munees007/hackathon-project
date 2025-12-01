@@ -29,7 +29,7 @@ export const CodeSnippet = ({
   }, [code.code]);
 
   const submitAnswer = async (userAnswer:string) =>{
-      const ans = code.answer == userAnswer
+      const ans = code.answer?.trim().toLowerCase() == userAnswer.trim().toLowerCase()
       await changeQuestion!(ans);
   }
 

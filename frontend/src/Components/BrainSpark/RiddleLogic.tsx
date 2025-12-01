@@ -17,7 +17,7 @@ export const RiddleLogic = ({ riddle,changeQuestion }: RiddleLogicProps) => {
 ];
 
 const submitAnswer = async (userAnswer:string) =>{
-  const res = riddle.answer == userAnswer
+  const res = riddle.answer?.trim().toLowerCase() == userAnswer.trim().toLowerCase()
 
   await changeQuestion!(res)
 }
