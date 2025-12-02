@@ -355,7 +355,7 @@ const Editor: React.FC<EditorProps> = ({
       setLevelIncrease(true);
     }
     return () => clearInterval(handleTimer);
-  }, [timer, timerRunning, gameOver, currentLevelIndex]);
+  }, [timer, timerRunning, gameOver, currentLevelIndex,breakTimer]);
 
   const getScore = (): number => {
     const currentLevel = parseInt(localStorage.getItem("LevelIndicator")!) || 0;

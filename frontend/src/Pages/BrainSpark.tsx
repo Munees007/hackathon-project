@@ -21,7 +21,9 @@ export const BrainSpark = () => {
     }
     return data
   })
-  const [index,setIndex] = useState<number>(0)
+  const [index,setIndex] = useState<number>(()=>{
+    return parseInt(localStorage.getItem("bs_index") ?? "0")
+  })
   const [currentQuestion,setCurrentQuestion] = useState<QuestionItem | null>();
   const [timer,setTimer] = useState<number>(()=>{
     return parseInt(localStorage.getItem("bs_Timer") || "0")
@@ -37,26 +39,36 @@ export const BrainSpark = () => {
   const brain_spark_key = "brain_spark_qns"
   const brain_spark_index = "bs_index"
   const timeRef = "dbTime"
-  
+  useEffect(()=>{
+    if(localStorage.getItem("Round1") === "completed")
+    {
+      navigate("/codespace")
+    } 
+  },[navigate])
   const handleGameOver = async () =>{
     setTimerRunning(false)
     localStorage.setItem("Round1","completed")
     await updateBreak(true)
     navigate("/codespace")
   }
-  useEffect(()=>{
-      if(!timerRunning) return
-      const interval = setInterval(()=>{
-        setTimer(prev=> prev-1)
-        localStorage.setItem("bs_Timer",(timer-1).toString())
-      },1000)
-      if(timer <=0 || index == questions.length)
-      {
-        handleGameOver()
+  useEffect(() => {
+  if (!timerRunning) return;
+
+  const interval = setInterval(() => {
+    setTimer((prev) => {
+      if (prev <= 1) {
+        handleGameOver();
+        return 0; 
       }
-      
-      return () => clearInterval(interval)
-  },[timerRunning,timer])
+      const newTime = prev - 1;
+      localStorage.setItem("bs_Timer", newTime.toString());
+      return newTime;
+    });
+  }, 1000);
+
+  return () => clearInterval(interval);
+}, [timerRunning]);
+
   useEffect(()=>{
     const fetch = async () =>{
       const isDataNew = localStorage.getItem(brain_spark_key) || null
@@ -85,6 +97,7 @@ export const BrainSpark = () => {
   },[])
 
   const changeQuestion = async (isCorrect:boolean) =>{
+    
     if(isCorrect)
     {
       localStorage.setItem(bs_score,(score+1).toString())
@@ -96,6 +109,11 @@ export const BrainSpark = () => {
       setCurrentQuestion(questions[prev + 1])
       return prev + 1
     })
+
+    if(index + 1 == questions.length)
+    {
+      handleGameOver()
+    }
     
   }
   return (

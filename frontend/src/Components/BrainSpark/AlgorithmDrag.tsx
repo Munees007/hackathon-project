@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import type { map_algorithm } from "../../types/BrainSparkType";
 import { BiDownArrowAlt, BiUpArrowAlt } from "react-icons/bi";
 import { motion, AnimatePresence } from "framer-motion";
@@ -9,7 +9,7 @@ interface AlgorithmDragProps
   changeQuestion?: (isCorrect:boolean) => Promise<void>
 }
 export const AlgorithmDrag = ({ algorithm,changeQuestion }: AlgorithmDragProps) => {
-  const [data, setData] = useState<string[]>([]);
+  const [data, setData] = useState<string[]>(algorithm.algorithm);
 const flowForgeRules: string[] = [
   "You will see a list of shuffled algorithm steps.",
   "Rearrange them into the correct logical order using the up and down arrows.",
@@ -35,14 +35,24 @@ const flowForgeRules: string[] = [
     setData(copy);
   };
 
-  useEffect(() => {
-    setData(algorithm.algorithm);
-  }, [algorithm]);
 
-  const submitAnswer = async ()=>{
-    const res = algorithm.algorithm.map((value)=> value.trim().toLowerCase()) == data.map((value)=> value.trim().toLowerCase())
-    await changeQuestion!(res)
-  }
+
+  const submitAnswer = async () => {
+  const correctSteps = algorithm.correctOrder!.map(s =>
+    s.trim().toLowerCase()
+  );
+
+  const userSteps = data.map(s =>
+    s.trim().toLowerCase()
+  );
+
+  const isCorrect =
+    correctSteps.length === userSteps.length &&
+    correctSteps.every((val, idx) => val === userSteps[idx]);
+
+  await changeQuestion?.(isCorrect);
+};
+
   return (
     <div className="flex justify-center gap-5 w-full max-sm:flex-col max-sm:items-center max-sm:gap-3 max-sm:m-2">
     <div className="max-w-md p-6 rounded-2xl shadow-md border border-gray-200 flex flex-col">
