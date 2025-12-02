@@ -28,7 +28,6 @@ export interface userDataType {
   Position: string
 }
 const Admin = () => {
-  const [collapsed, setCollapsed] = useState(false); // for Ant Design collapsible sider
 
   const [userData, setUserData] = useState<userDataType[]>();
   const [levelData,setLevelData] = useState<Level[]>();

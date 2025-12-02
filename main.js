@@ -23,7 +23,7 @@ function createWindow() {
       nodeIntegration: false,
       contextIsolation: true,
     },
-    icon: path.join(__dirname, "assets/icons/logo.ico"),
+    icon: path.join(__dirname, "assets/icons/zynova.ico"),
   });
 
   mainWindow.on('leave-full-screen',()=>{

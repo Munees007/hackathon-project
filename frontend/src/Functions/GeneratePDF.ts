@@ -63,10 +63,7 @@ export const GenerateparticipantsList = (data: FormData[]) => {
   data.forEach((d, index) => {
     let s: string[] = [];
     s.push((index + 1).toString());
-    s.push(d.rollNumber.replace("&", "\n"));
-    s.push(d.name.replace("&", "\n"));
-    s.push(d.className);
-    s.push(d.email);
+    s.push(d.lotNo.toString());
     s.push(""); // for signature space
     formattedData.push(s);
   });
@@ -151,10 +148,6 @@ export const GenerateparticipantsScore = (data: ScoreType[]) => {
   winners.forEach((winner,index)=>{
     let temp:string[] = []
     temp.push((index+1).toString())
-    temp.push(winner.FormData.rollNumber)
-    temp.push(winner.FormData.name)
-    temp.push(winner.FormData.className)
-    temp.push(winner.FormData.email)
     temp.push(winner.Position)
     formattedWinnerData.push(temp)
   })  
@@ -219,10 +212,6 @@ export const GenerateparticipantsScore = (data: ScoreType[]) => {
   participants.forEach((participant,index)=>{
     let temp:string[] = []
     temp.push((index+1).toString())
-    temp.push(participant.FormData.rollNumber)
-    temp.push(participant.FormData.name)
-    temp.push(participant.FormData.className)
-    temp.push(participant.FormData.email)
     temp.push(participant.Position)
     formattedParticipantData.push(temp)
   })  

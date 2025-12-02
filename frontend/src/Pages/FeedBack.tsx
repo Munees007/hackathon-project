@@ -54,7 +54,7 @@ export const FeedBack:React.FC<FeedBackProps> = ({isView,feedBackData}) => {
 
     try {
       setLoading(true);
-      await set(ref(db, `feedback/${userData.rollNumber}`), feedback);
+      await set(ref(db, `feedback/${userData.lotNo}`), feedback);
       toast.success("Thanks for your feedback!");
 
       setTimeout(() => navigate("/thankYou"), 2000);
@@ -85,10 +85,10 @@ export const FeedBack:React.FC<FeedBackProps> = ({isView,feedBackData}) => {
 
       {userData && (
         <div className="mb-4 p-4 rounded-lg bg-white/80 text-black shadow-md w-full max-w-lg border border-gray-200">
-          <p><strong>Name:</strong> {userData.name}</p>
-          <p><strong>Roll No:</strong> {userData.rollNumber}</p>
-          <p><strong>Class:</strong> {userData.className}</p>
-          <p><strong>Email:</strong> {userData.email}</p>
+          <p><strong>Name:</strong> {userData.lotNo}</p>
+          <p><strong>Roll No:</strong> {userData.lotNo}</p>
+          <p><strong>Class:</strong> {userData.lotNo}</p>
+          <p><strong>Email:</strong> {userData.lotNo}</p>
         </div>
       )}
 

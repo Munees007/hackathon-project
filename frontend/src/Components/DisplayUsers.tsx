@@ -182,7 +182,7 @@ const DisplayUsers: React.FC<DisplayUsersProps> = ({ userData, levelData, displa
             title:"Roll No",
             dataIndex:"rollNumber",
             render(_, record) {
-                return <p>{record.formData.rollNumber}</p>
+                return <p>{record.formData.lotNo}</p>
             },
         },
         {
@@ -190,7 +190,7 @@ const DisplayUsers: React.FC<DisplayUsersProps> = ({ userData, levelData, displa
             title:"Name",
             dataIndex:"name",
             render(_, record) {
-                return <p>{record.formData.name}</p>
+                return <p>{record.formData.lotNo}</p>
             },
         },
         {
@@ -198,7 +198,7 @@ const DisplayUsers: React.FC<DisplayUsersProps> = ({ userData, levelData, displa
             title:"Email",
             dataIndex:"email",
             render(_, record) {
-                return <p>{record.formData.email}</p>
+                return <p>{record.formData.lotNo}</p>
             },
         },
     ];
@@ -215,8 +215,8 @@ const DisplayUsers: React.FC<DisplayUsersProps> = ({ userData, levelData, displa
           key: "rollNumber",
           render: (_, record) => {
             return (
-              <Link to={`/profile/${record.formData.name}`} state={{ value: record, levelData }}>
-                {record.formData.rollNumber}
+              <Link to={`/profile/${record.formData.lotNo}`} state={{ value: record, levelData }}>
+                {record.formData.lotNo}
               </Link>
             );
           },
@@ -225,14 +225,14 @@ const DisplayUsers: React.FC<DisplayUsersProps> = ({ userData, levelData, displa
           title: "Name",
           key: "name",
           render: (_, record) => {
-            return <span>{record.formData.name}</span>;
+            return <span>{record.formData.lotNo}</span>;
           },
         },
         {
           title: "Email",
           key: "email",
           render: (_, record) => {
-            return <span>{record.formData.email}</span>;
+            return <span>{record.formData.lotNo}</span>;
           },
         },
         {

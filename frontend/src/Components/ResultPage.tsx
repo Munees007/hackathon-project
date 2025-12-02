@@ -115,13 +115,13 @@ const ResultDisplay = ({ data }: { data: ScoreType[] }) => {
               {winners[currentWinnerIndex]?.Position} Prize
             </h2>
             <p className="text-2xl mt-4 text-white">
-              Name: {winners[currentWinnerIndex]?.FormData?.name}
+              Name: {winners[currentWinnerIndex]?.FormData?.lotNo}
             </p>
             <p className="text-2xl mt-2 text-white">
-              {winners[currentWinnerIndex]?.FormData?.rollNumber}
+              {winners[currentWinnerIndex]?.FormData?.lotNo}
             </p>
             <div className="flex flex-col gap-2 mt-4 text-xl">
-              {winners[currentWinnerIndex]?.FormData?.className}
+              {winners[currentWinnerIndex]?.FormData?.lotNo}
             </div>
           </motion.div>
         </AnimatePresence>

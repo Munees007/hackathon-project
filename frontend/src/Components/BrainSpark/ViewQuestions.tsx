@@ -3,8 +3,7 @@ import { List, Button, Select, Drawer, Typography, Card } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 
 import { CodeSnippet } from "../BrainSpark/CodeSnippet";
-import { RiddleLogic } from "../BrainSpark/RiddleLogic";
-import { AlgorithmDrag } from "../BrainSpark/AlgorithmDrag";
+
 import type { QuestionItem, QuestionType } from "../../types/BrainSparkType";
 
 
@@ -136,16 +135,7 @@ export const ViewBrainSparkQuestions = ({ questions }: Props) => {
               />
             )}
 
-            {selectedQuestion.type === "logic_riddle" && (
-              <RiddleLogic
-                question={selectedQuestion.question || ""}
-                options={selectedQuestion.options || []}
-              />
-            )}
-
-            {selectedQuestion.type === "map_algorithm" && (
-              <AlgorithmDrag algorithm={selectedQuestion.algorithm || []} />
-            )}
+            
             </div>
           </div>
           </>

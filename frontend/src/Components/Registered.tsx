@@ -38,7 +38,7 @@ export const Registered = () =>{
   {
     title: "Team Members",
     key: "teamMembers",
-    render: (text: any, record: RegistrationInterface) => (
+    render: (_: any, record: RegistrationInterface) => (
       <Tooltip
         title={
           <div>
@@ -70,7 +70,7 @@ export const Registered = () =>{
   {
     title: "Payment Status",
     key: "paymentInfo",
-    render: (text: any, record: RegistrationInterface) => (
+    render: (__: any, record: RegistrationInterface) => (
       <Tooltip
         title={
           <div>

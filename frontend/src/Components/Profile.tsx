@@ -61,9 +61,9 @@ export default function Profile() {
       <BiLeftArrow size={25} onClick={() => { history.back() }} />
       <p className="font-Roboto text-center text-4xl uppercase font-bold mb-2">Profile</p>
       <div className="bg-white border-2 border-black rounded-md shadow-md shadow-black w-full text-black flex justify-around py-2">
-        <p>{state?.value?.formData?.rollNumber}</p>
-        <p>{state?.value?.formData?.name}</p>
-        <p>{state?.value?.formData?.email}</p>
+        <p>{state?.value?.formData?.lotNo}</p>
+        <p>{state?.value?.formData?.lotNo}</p>
+        <p>{state?.value?.formData?.lotNo}</p>
         {state?.value?.codeData ? (
           <>
             <p>{getScore(state.value)}</p>

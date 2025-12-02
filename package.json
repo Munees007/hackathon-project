@@ -17,7 +17,7 @@
       "backend/**/*"
     ],
     "win":{
-      "icon":"assets/icons/logo.ico"
+      "icon":"assets/icons/zynova.ico"
     },
     "nsis": {
       "oneClick": false,
