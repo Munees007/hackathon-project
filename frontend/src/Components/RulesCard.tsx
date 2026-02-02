@@ -1,5 +1,9 @@
 import { Card, Tag } from "antd";
-import { CheckCircleOutlined, CloseCircleOutlined, InfoCircleOutlined } from "@ant-design/icons";
+import {
+  CheckCircleOutlined,
+  CloseCircleOutlined,
+  InfoCircleOutlined,
+} from "@ant-design/icons";
 
 const rules = [
   { text: "Avoid refreshing the page.", type: "info" },
@@ -13,9 +17,9 @@ const rules = [
   { text: "You don’t need to write the entire code from scratch.", type: "info" },
   { text: "Focus on understanding the problem and implement logic within the given function.", type: "info" },
   { text: "All test cases must pass for a successful submission.", type: "important" },
-  { text: "All the best, participants!", type: "success" },
   { text: "Need to pass all the Test Cases to complete a level.", type: "important" },
-  { text: "You can view the Test Case in Question Panel and Result of TestCase after Run.", type: "info" },
+  { text: "You can view the Test Case in Question Panel and Result after Run.", type: "info" },
+  { text: "All the best, participants!", type: "success" },
   {
     text: (
       <>
@@ -39,13 +43,15 @@ export default function RulesCard() {
     <Card
       title="📜 Instructions"
       bordered={false}
-      className="shadow-lg rounded-2xl p-4 bg-gradient-to-br from-white via-gray-50 to-gray-100"
+      className="shadow-lg rounded-2xl p-4
+                 bg-gradient-to-br from-white via-gray-50 to-gray-100"
     >
-      <ul>
+      <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3">
         {rules.map((rule, index) => (
           <li
             key={index}
-            className="flex items-start space-x-3 p-2 rounded-lg hover:bg-gray-50 transition"
+            className="flex items-start space-x-3 p-3 rounded-lg
+                       hover:bg-gray-100 transition"
           >
             <span className="font-bold text-gray-500">{index + 1}.</span>
 
@@ -54,7 +60,7 @@ export default function RulesCard() {
                 <Tag color="blue" className="font-mono text-sm">
                   {rule.shortcut}
                 </Tag>
-                {rule.info && <span className="ml-2">{rule.info}</span>}
+                <span className="ml-2">{rule.info}</span>
               </span>
             ) : (
               <span
