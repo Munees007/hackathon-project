@@ -1,15 +1,15 @@
 {
-  "name": "hackathon-compiler",
+  "name": "codathon-compiler",
   "main": "main.js",
   "version": "1.0.0",
-  "description": "Hackathon Software Desktop App",
+  "description": "Codathon Software Desktop App",
   "author": "Munees",
   "scripts": {
     "start": "electron .",
     "build": "electron-builder"
   },
   "build": {
-    "appId": "dev.munees.hackathon.compiler",
+    "appId": "dev.munees.codathon.compiler",
     "files": [
       "main.js",
       "frontend/dist/**/*",
