@@ -330,7 +330,7 @@ const DisplayUsers: React.FC<DisplayUsersProps> = ({ userData, levelData, displa
     return (
         <div className="w-full overflow-auto">
           
-            <p className="text-center font-Roboto text-2xl font-exdivabold">{display ? "Hackathon Score" : "Registered Student Lists"}</p>
+            <p className="text-center font-Roboto text-2xl font-exdivabold">{display ? "Codathon Score" : "Registered Student Lists"}</p>
             {!display && (
                 <div className="w-full gap-2 flex justify-between p-2 items-center">
                     <div className="flex flex-col gap-2">

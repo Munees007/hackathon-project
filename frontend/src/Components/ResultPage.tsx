@@ -78,7 +78,7 @@ const ResultDisplay = ({ data }: { data: ScoreType[] }) => {
           <p className="text-3xl md:text-4xl font-bold mt-2">
             Department of Computer Applications
           </p>
-          <p className="text-3xl md:text-4xl font-bold mt-2">Hackathon 2k25</p>
+          <p className="text-3xl md:text-4xl font-bold mt-2">Codathon 2k25</p>
         </motion.div>
       )}
 
@@ -92,7 +92,7 @@ const ResultDisplay = ({ data }: { data: ScoreType[] }) => {
           transition={{ duration: 1 }}
           className="text-center"
         >
-          <h1 className="text-6xl md:text-8xl font-bold">Hackathon</h1>
+          <h1 className="text-6xl md:text-8xl font-bold">Codathon</h1>
         </motion.div>
       )}
 

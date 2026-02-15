@@ -675,7 +675,7 @@ const Editor: React.FC<EditorProps> = ({
 
   {/* Description */}
   <p className="text-center text-lg md:text-xl text-white/80">
-    Relax, grab a snack, or stretch before continuing the hackathon.
+    Relax, grab a snack, or stretch before continuing the codathon.
   </p>
 </motion.div>
 
@@ -694,7 +694,7 @@ const Editor: React.FC<EditorProps> = ({
           : ""
       } relative h-screen p-5 overflow-hidden`}
     >
-      <p  className="text-4xl textShadow font-bold text-center font-Orbiton tracking-widest animate-bounce uppercase">Hackathon 2k25</p>
+      <p  className="text-4xl textShadow font-bold text-center font-Orbiton tracking-widest animate-bounce uppercase">Codathon 2k25</p>
       
       {codeData?.finalAnswer[currentLevelIndex]?.answer[questionNo - 1]
         ?.answered && (

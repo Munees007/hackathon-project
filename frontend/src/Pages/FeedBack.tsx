@@ -80,7 +80,7 @@ export const FeedBack:React.FC<FeedBackProps> = ({isView,feedBackData}) => {
       )}
 
       <h1 className="text-2xl sm:text-3xl font-extrabold text-white mb-6 drop-shadow-lg">
-        Hackathon Feedback
+        Codathon Feedback
       </h1>
 
       {userData && (

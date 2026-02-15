@@ -1,0 +1,103 @@
+[
+  {
+    "levelIndex": 0,
+    "questions": [
+      {
+        "title": "Precision Irrigation Assistant",
+        "content": {
+          "problem": "In a smart farm, sensors track soil moisture to optimize water usage. Calculate the final water volume required for a field based on its area and moisture level.\n- Base Requirement: 5 Liters per square meter.\n- Moisture < 30.0%: Increase volume by 25%.\n- 30.0% <= Moisture <= 60.0%: Base volume.\n- Moisture > 60.0%: Decrease volume by 50%.\n- Moisture > 80.0%: Volume required is 0 Liters.",
+          "input": "Area (float) and Moisture Percentage (float) on new lines.",
+          "output": "Total: [Volume]L (rounded to 1 decimal place)",
+          "example1": { "input": "100.0\n25.0", "output": "Total: 625.0L" },
+          "example2": { "input": "50.0\n70.0", "output": "Total: 125.0L" },
+          "testCase": [
+            { "input": "100.0\n25.0", "output": "Total: 625.0L" },
+            { "input": "200.0\n85.0", "output": "Total: 0.0L" },
+            { "input": "100.0\n45.0", "output": "Total: 500.0L" },
+            { "input": "10.0\n10.0", "output": "Total: 62.5L" }
+          ]
+        }
+      },
+      {
+        "title": "EV Intelligent Range Predictor",
+        "content": {
+          "problem": "Calculate an EV's predicted range. \n- Initial Range: (Battery % / 100) * 400 km. \n- Cargo Impact: For every 1.0 kg, decrease range by 0.05 km. \n- AC Impact: If AC is ON (1), reduce the remaining range by 15%.",
+          "input": "Battery % (int), Cargo Weight in kg (float), AC Status (1/0) on new lines.",
+          "output": "Predicted Range: [Value] km (rounded to 2 decimal places)",
+          "example1": { "input": "80\n100.0\n1", "output": "Predicted Range: 267.75 km" },
+          "example2": { "input": "100\n0.0\n0", "output": "Predicted Range: 400.00 km" },
+          "testCase": [
+            { "input": "80\n100.0\n1", "output": "Predicted Range: 267.75 km" },
+            { "input": "50\n50.0\n0", "output": "Predicted Range: 197.50 km" },
+            { "input": "20\n0.0\n1", "output": "Predicted Range: 68.00 km" }
+          ]
+        }
+      },
+      {
+        "title": "Last-Mile Delivery Pay Calculator",
+        "content": {
+          "problem": "Calculate a delivery partner's earnings.\n- Base Pay: Rs. 40.\n- Distance Pay: First 5km @ Rs. 10/km, Beyond 5km @ Rs. 15/km.\n- Pro Bonus: If rating >= 4.8, total amount gets a 20% bonus.",
+          "input": "Distance in km (float), Customer Rating (float) on new lines.",
+          "output": "Earnings: Rs. [Value] (rounded to 2 decimal places)",
+          "example1": { "input": "8.0\n4.9", "output": "Earnings: Rs. 162.00" },
+          "example2": { "input": "3.0\n4.0", "output": "Earnings: Rs. 70.00" },
+          "testCase": [
+            { "input": "8.0\n4.9", "output": "Earnings: Rs. 162.00" },
+            { "input": "10.0\n4.5", "output": "Earnings: Rs. 165.00" },
+            { "input": "5.0\n4.8", "output": "Earnings: Rs. 108.00" }
+          ]
+        }
+      },
+      {
+        "title": "Smart City Parking Fee",
+        "content": {
+          "problem": "Calculate parking fees.\n- First 2 Hours: Rs. 30 total.\n- Every Hour After: Rs. 20/hr.\n- EV Discount: Flat Rs. 15 discount on final total if EV (1).\n- Long Stay: If duration > 12 hours, add 10% surcharge before EV discount.",
+          "input": "Total Hours (int), Is EV (1/0) on new lines.",
+          "output": "Final Fee: Rs. [Value] (rounded to 2 decimal places)",
+          "example1": { "input": "5\n1", "output": "Final Fee: Rs. 75.00" },
+          "example2": { "input": "15\n0", "output": "Final Fee: Rs. 319.00" },
+          "testCase": [
+            { "input": "5\n1", "output": "Final Fee: Rs. 75.00" },
+            { "input": "15\n0", "output": "Final Fee: Rs. 319.00" },
+            { "input": "2\n1", "output": "Final Fee: Rs. 15.00" }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "levelIndex": 1,
+    "questions": [
+      {
+        "title": "Robot Path Validator",
+        "content": {
+          "problem": "A robot in a 10x10 grid (0,0 to 9,9) moves by 'U','D','L','R'. Detect if it hits a boundary, an obstacle, or reaches the target (TX, TY) at any point.",
+          "input": "TX TY (ints), NumObstacles (int), Obstacle Coords (x y pairs), Moves (string).",
+          "output": "TARGET_REACHED, OUT_OF_BOUNDS at (x,y), OBSTACLE at (x,y), or INCOMPLETE at (x,y).",
+          "example1": { "input": "2 2\n1\n1 1\nRRUU", "output": "TARGET_REACHED" },
+          "example2": { "input": "5 5\n1\n1 0\nR", "output": "OBSTACLE at (1,0)" },
+          "testCase": [
+            { "input": "2 2\n1\n1 1\nRRUU", "output": "TARGET_REACHED" },
+            { "input": "5 5\n1\n1 0\nR", "output": "OBSTACLE at (1,0)" },
+            { "input": "9 9\n0\nLL", "output": "OUT_OF_BOUNDS at (0,0)" }
+          ]
+        }
+      },
+      {
+        "title": "Real-time Health Alert System",
+        "content": {
+          "problem": "A wearable device monitors Heart Rate (HR). Detect sustained abnormalities.\n- EMERGENCY: HR > 150 for 3 consecutive minutes.\n- WARNING: HR > 120 for 3 consecutive minutes.\n- STABLE: Otherwise.\nReturn the highest priority alert.",
+          "input": "10 integers (Heart Rate readings) on new lines.",
+          "output": "Alert: EMERGENCY, Alert: WARNING, or Status: STABLE",
+          "example1": { "input": "80\n90\n125\n130\n128\n100\n90\n155\n160\n165", "output": "Alert: EMERGENCY" },
+          "example2": { "input": "70\n80\n75\n125\n130\n135\n90\n80\n85\n100", "output": "Alert: WARNING" },
+          "testCase": [
+            { "input": "80\n90\n125\n130\n128\n100\n90\n155\n160\n165", "output": "Alert: EMERGENCY" },
+            { "input": "70\n80\n75\n125\n130\n135\n90\n80\n85\n100", "output": "Alert: WARNING" },
+            { "input": "70\n70\n70\n70\n70\n70\n70\n70\n74\n75", "output": "Status: STABLE" }
+          ]
+        }
+      }
+    ]
+  }
+]

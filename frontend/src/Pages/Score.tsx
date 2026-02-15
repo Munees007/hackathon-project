@@ -298,7 +298,7 @@ const Score: React.FC<ScoreUsersProps> = ({ userData, levelData }) => {
                   GenerateparticipantsScore(data);}}>Download Score</Button>
                 
             </div>
-            <p className="text-center font-Roboto text-2xl font-exdivabold">"Hackathon Score"</p>
+            <p className="text-center font-Roboto text-2xl font-exdivabold">"Codathon Score"</p>
             
             <div className="w-full flex justify-start">
                     <p className="mr-2">Seprate Data with Date:</p>
