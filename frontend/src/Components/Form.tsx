@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { addData } from "../Database/functions/addData";
+import { addData, checkPaymentStatus } from "../Database/functions/addData";
 import {  toast} from "react-toastify";
 import { MdClose } from "react-icons/md";
 import {motion} from "framer-motion"
@@ -38,6 +38,14 @@ const Form = ({Submitted,closeForm}:{
 
     try {
       const updatedData = {...formData}
+      
+      const paymentCheck = await checkPaymentStatus(Number(updatedData.lotNo));
+      
+      if (paymentCheck.exists && !paymentCheck.isPaid) {
+        toast.info("Payment Pending. Please reach out to the coordinator.");
+        return;
+      }
+
       const res = await addData(updatedData);
       
       if(res.toastType == "success")

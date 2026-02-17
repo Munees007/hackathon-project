@@ -8,6 +8,7 @@ export interface RegistrationInterface {
   email: string;
   mobile: string;
   paymentInfo: {
+    status?: string;
     amountPaid: string;
     paymentFrom: string;
     paymentMode: string;
@@ -80,7 +81,9 @@ export const Registered = () =>{
           </div>
         }
       >
-        <span>{record.paymentInfo.amountPaid}</span>
+        <span className={`capitalize font-bold ${record.paymentInfo.status === 'paid' ? 'text-green-600' : 'text-red-500'}`}>
+          {record.paymentInfo.status || "Pending"}
+        </span>
       </Tooltip>
     ),
   },

@@ -1,8 +1,3 @@
-# Innovative Codathon Questions (National Level)
-
-This document contains 6 innovative, real-time problem-solving questions designed for a national-level codathon. 
-
----
 
 ## Level 0 (1 Hour - 4 Questions)
 *Focus: Conditional Logic, Basic Math, and Real-time application.*

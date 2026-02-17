@@ -62,7 +62,7 @@ const Home = () => {
           localStorage.removeItem(key);
         }
       });
-
+      localStorage.setItem("formSubmitted","false");
       localStorage.setItem("date", dateObj.toLocaleDateString());
     }
   };

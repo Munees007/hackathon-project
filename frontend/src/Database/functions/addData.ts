@@ -58,6 +58,26 @@ export async function addRegistration(formData:RegisterationData){
     }
 }
 
+export async function checkPaymentStatus(lotNo: number) {
+  try {
+    const regRef = ref(db, `registrations`);
+    const lotQuery = query(regRef, orderByChild("lotNo"), equalTo(lotNo));
+    const snapshot = await get(lotQuery);
+
+    if (snapshot.exists()) {
+      const data = Object.values(snapshot.val())[0] as any;
+      return {
+        isPaid: data?.paymentInfo?.status === "paid",
+        exists: true
+      };
+    }
+    return { isPaid: false, exists: false };
+  } catch (error) {
+    console.error("Error checking payment status:", error);
+    return { isPaid: false, exists: false };
+  }
+}
+
 export async function addData(formData: FormData) {
   try {
     const lotNo = Number(formData.lotNo);
@@ -71,10 +91,11 @@ export async function addData(formData: FormData) {
 
     const userData = await get(lotQuery);
     console.log(userData.exists())
-    if (userData.exists()) {
+      if (userData.exists()) {
       const data = Object.values(userData.val())[0] as any;
 
-      console.log(data)
+      console.log(data);
+
       const original = decryptPass(data?.pass);
       if (original == formData.pass) {
         const userRef = ref(db, `users/${lotNo}`);

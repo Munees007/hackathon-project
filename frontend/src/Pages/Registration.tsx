@@ -59,12 +59,12 @@ const Registration = () => {
         ...formData,
         teamMembers:{...ParticipantData},
         paymentInfo:{
+          status:"pending",
           amountPaid:"pending",
           paymentMode:"offline",
           paymentFrom:"",
           paymentTimestamp:0,
         }
-        
       }
       await addRegistration(newData);
       setFormSubmitted(true);

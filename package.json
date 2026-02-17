@@ -2,6 +2,7 @@
   "name": "codathon-compiler",
   "main": "main.js",
   "version": "1.0.0",
+  "type": "module",
   "description": "Codathon Software Desktop App",
   "author": "Munees",
   "scripts": {
