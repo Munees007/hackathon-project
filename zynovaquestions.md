@@ -6,11 +6,12 @@ PROBLEM STATEMENTS
 </center>
 
 ###  Level 0 - (4 MEDIUM)
-### Q1: Cinema Dynamic Pricing
+### Q1: Dynamic Cinema Ticket Pricing
 **Problem:** A theater uses dynamic pricing.
 - **Base Price:** Rs. 200.
 - **Age Discount:** Age < 12 (50% off), Age > 60 (30% off).
 - **Time Surcharge:** If the show is after 18:00 (6 PM), add **Rs. 50** to the final price.
+
 **Input:** Age (int), Show Hour (int, 0-23).
 **Output:** `Ticket Price: Rs. [Value]`
 
