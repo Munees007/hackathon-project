@@ -9,6 +9,7 @@ export const CodeSnippet = ({
   changeQuestion?: (isCorrect: boolean) => Promise<void>;
 }) => {
   const [data, setData] = useState<string>("");
+  const [loading, setLoading] = useState(false);
   const syntaxSurgeRules: string[] = [
     "Each question contains a partially completed C program.",
     "Fill the missing syntax or function name in the blank area.",
@@ -28,20 +29,28 @@ export const CodeSnippet = ({
     setData(temp);
   }, [code.code]);
 
-  const submitAnswer = async (userAnswer:string) =>{
-      const ans = code.answer?.trim().toLowerCase() == userAnswer.trim().toLowerCase()
-      await changeQuestion!(ans);
-  }
+  const submitAnswer = async (userAnswer: string) => {
+    if (loading) return;
+    setLoading(true);
+    try {
+      const ans = code.answer?.trim().toLowerCase() == userAnswer.trim().toLowerCase();
+      await changeQuestion?.(ans);
+    } catch (error) {
+      console.error("Submission failed", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="flex justify-center gap-5 w-full max-sm:flex-col max-sm:items-center max-sm:gap-3 max-sm:m-2">
-      <div className="w-fit  p-6 rounded-2xl shadow-md border border-gray-200">
+      <div className="w-fit p-6 rounded-2xl shadow-md border border-gray-200 bg-slate-900/50">
         <p className="font-[Orbitron] font-bold uppercase tracking-widest text-xl text-white mb-4">
           Syntax Surge
         </p>
         {/* 💻 Code Snippet */}
         <motion.pre
-          className="parent select-none bg-purple-500/10 backdrop-blur-[1px] p-4 rounded-lg shadow-inner border border-gray-300 font-mono text-lg whitespace-pre-wrap"
+          className="parent select-none bg-purple-500/10 backdrop-blur-[1px] p-4 rounded-lg shadow-inner border border-gray-300 font-mono text-lg whitespace-pre-wrap min-w-[300px]"
           dangerouslySetInnerHTML={{ __html: data }}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -68,16 +77,19 @@ export const CodeSnippet = ({
               key={i}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.9 }}
-              onClick={async()=>{await submitAnswer(op)}}
+              disabled={loading}
+              onClick={async () => {
+                await submitAnswer(op);
+              }}
               className="optionBtn bg-blue-400 text-gray-900 font-semibold py-2 px-3 rounded-lg shadow-sm 
-                       hover:bg-blue-500 active:bg-green-400 transition-all duration-200"
+                       hover:bg-blue-500 active:bg-green-400 transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50"
             >
               {op}
             </motion.button>
           ))}
         </div>
       </div>
-      <div className="w-96  p-6 rounded-2xl text-white shadow-md border h-full border-gray-200">
+      <div className="w-96 p-6 rounded-2xl text-white shadow-md border h-full border-gray-200 bg-slate-900/50">
         <p className="font-[Orbitron] font-bold uppercase tracking-widest text-xl">
           Instructions
         </p>
@@ -94,3 +106,4 @@ export const CodeSnippet = ({
     </div>
   );
 };
+

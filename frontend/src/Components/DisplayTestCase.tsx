@@ -23,8 +23,8 @@ export const DisplayTestCase:React.FC<DisplayTestCaseProps> = ({ caseResult }) =
   return (
     <div className="m-3 w-fit">
   {/* Test Case Buttons Row */}
-  <div className="flex flex-wrap" id="test-case-row">
-    {testCases?.map((testCase, index) => {
+  <div className="flex flex-wrap items-center" id="test-case-row">
+    {testCases?.slice(0, 3).map((testCase, index) => {
       const isCorrect = testCase.isCorrect || onlyTestCase;
       const buttonColor = isCorrect
         ? {
@@ -72,6 +72,12 @@ export const DisplayTestCase:React.FC<DisplayTestCaseProps> = ({ caseResult }) =
         </div>
       );
     })}
+
+    {testCases.length > 3 && (
+      <div className="ml-4 py-2 font-[Orbitron] text-gray-400 text-sm tracking-widest">
+        + {testCases.length - 3} more hidden test cases
+      </div>
+    )}
   </div>
 
   {/* Test Case Card */}

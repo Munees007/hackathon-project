@@ -21,8 +21,9 @@ export const AddBrainSparkQuestions = () => {
   const [output, setOutput] = useState<string>("");
   const [algorithm, setAlgorithm] = useState<string[]>([]);
   const [correctOrder, setCorrectOrder] = useState<string[]>([]);
-    const [answer,setAnswer] = useState<string>("");
+  const [answer, setAnswer] = useState<string>("");
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 const [form] = Form.useForm();
 
   const handleOptionChange = (value: string, index: number) => {
@@ -38,6 +39,8 @@ const [form] = Form.useForm();
       return toast.error("Please enter algorithm steps");
     if (type === "map_algorithm" && algorithm.length > 6)
       return toast.error("algorithm steps should not exceed 6");
+    
+    setLoading(true);
     let payload: any;
     if (type === "code_snip") {
       payload = { code: question, options, output, addedBy,answer, createdAt: Date.now() };
@@ -46,14 +49,13 @@ const [form] = Form.useForm();
     } else if (type === "map_algorithm") {
       payload = { algorithm, correctOrder: correctOrder.length ? correctOrder : algorithm, addedBy, createdAt: Date.now() };
     }
-    console.log(payload)
+    
     try {
       const dbRef = ref(db, `brainspark/${type}`);
       await push(dbRef, payload);
       toast.success("Question added successfully!");
 
       form.resetFields();
-      // Optionally clear form
       setQuestion("");
       setOptions(["", "", "", ""]);
       setOutput("");
@@ -63,6 +65,8 @@ const [form] = Form.useForm();
     } catch (err) {
       console.error(err);
       toast.error("Failed to add question");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -166,10 +170,11 @@ form={form}
   </Form.Item>
     )
  }
-  <Button type="primary" htmlType="submit" className="w-full">
+  <Button type="primary" htmlType="submit" className="w-full" loading={loading}>
     Add Question
   </Button>
 </Form>
+
 
       </div>
 

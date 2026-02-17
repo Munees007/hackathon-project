@@ -19,6 +19,7 @@ const rules = [
   { text: "All test cases must pass for a successful submission.", type: "important" },
   { text: "Need to pass all the Test Cases to complete a level.", type: "important" },
   { text: "You can view the Test Case in Question Panel and Result after Run.", type: "info" },
+  { text: "Only the first 3 test cases are visible. The rest are hidden to keep things interesting and test your ultimate coding logic!", type: "important" },
   { text: "All the best, participants!", type: "success" },
   {
     text: (
