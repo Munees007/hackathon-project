@@ -89,7 +89,7 @@ const CodeSpace = () => {
   const [showSlide, setShowSlide] = useState<boolean>(false);
   const [currenQuestionIndex, setCurrentQuestionIndex] = useState<number>(1);
   const [triggerLock,setTriggerLock] = useState<boolean>(false);
-  const [completedData, setCompletedData] = useState<Level[]>(()=>{
+  const [__, setCompletedData] = useState<Level[]>(()=>{
     const temp = localStorage.getItem("completedData");
     if(temp)
     {
