@@ -7,6 +7,7 @@ import { ScoreType } from "../../Pages/Score";
 import { RegisterationData } from "../../Pages/Registration";
 import AES from "crypto-js/aes";
 import Utf8 from "crypto-js/enc-utf8";
+import { TabSwitch } from "../../types/TabSwtichTimerType";
 
 export const decryptPass = (encrypt:string)=>{
     const bytes = AES.decrypt(encrypt, import.meta.env.VITE_APP_SECRETKEY);
@@ -160,7 +161,7 @@ export async function addTimestampsToExistingUsers(): Promise<void> {
   }
   
   
-export async function addCodeData(codeData:answerType){
+export async function addCodeData(codeData:answerType,tabSwitched:TabSwitch[]){
     try {
         const userData = localStorage.getItem("userData");
         const data = JSON.parse(userData!);
@@ -168,7 +169,7 @@ export async function addCodeData(codeData:answerType){
 
         const userRef = ref(db,`users/${lotNo}`);
 
-        await update(userRef,{codeData});
+        await update(userRef,{codeData,tabSwitched});
 
         console.log("data submitted successfully");
     } catch (error) {

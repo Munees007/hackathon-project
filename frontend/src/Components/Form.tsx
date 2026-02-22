@@ -20,7 +20,7 @@ const Form = ({Submitted,closeForm}:{
   const [formSubmitted,setFormSubmitted] = useState<boolean>(()=>{
     const temp = localStorage.getItem("formSubmitted");
 
-    return temp ? Boolean(temp) : false;
+    return temp == "true";
   })
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   const { name, value } = e.target;

@@ -85,10 +85,7 @@ export const FeedBack:React.FC<FeedBackProps> = ({isView,feedBackData}) => {
 
       {userData && (
         <div className="mb-4 p-4 rounded-lg bg-white/80 text-black shadow-md w-full max-w-lg border border-gray-200">
-          <p><strong>Name:</strong> {userData.lotNo}</p>
-          <p><strong>Roll No:</strong> {userData.lotNo}</p>
-          <p><strong>Class:</strong> {userData.lotNo}</p>
-          <p><strong>Email:</strong> {userData.lotNo}</p>
+          <p><strong>Lot No:</strong> {userData.lotNo}</p>
         </div>
       )}
 
@@ -96,7 +93,7 @@ export const FeedBack:React.FC<FeedBackProps> = ({isView,feedBackData}) => {
         <Form className={`${isView ? "pointer-events-none" : "pointer-events-auto"}`} layout="vertical" onFinish={onFinish} form={form}>
           <Form.Item
             name="aboutWebsite"
-            label={<span className="font-semibold text-black">What do you think about the website?</span>}
+            label={<span className="font-semibold text-black">What do you think about the software?</span>}
             rules={[{ required: true }]}
           >
             <Radio.Group className="flex flex-col gap-2 text-black">

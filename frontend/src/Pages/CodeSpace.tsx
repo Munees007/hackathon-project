@@ -14,13 +14,14 @@ import FullQuestion from "../Components/FullQuestion";
 import { answerType, Level } from "../types/QuestionType";
 import { addCodeData, getLevelsData } from "../Database/functions/addData";
 import { getCurrentLevelIndex, updateBreak } from "../Components/Editor";
+import { TabSwitch } from "../types/TabSwtichTimerType";
 
 const CodeSpace = () => {
   const navigate = useNavigate();
   const dateObj = new Date();
   useEffect(() => {
     const date = localStorage.getItem("date");
-    const temp = localStorage.getItem("formSubmitted");
+    const temp = localStorage.getItem("formSubmitted") == "true";
     if(date === dateObj.toLocaleDateString())
     {
       if (!temp) {
@@ -87,7 +88,8 @@ const CodeSpace = () => {
   }, [levelData, currentLevel]);
   const [showSlide, setShowSlide] = useState<boolean>(false);
   const [currenQuestionIndex, setCurrentQuestionIndex] = useState<number>(1);
-  const [__, setCompletedData] = useState<Level[]>(()=>{
+  const [triggerLock,setTriggerLock] = useState<boolean>(false);
+  const [completedData, setCompletedData] = useState<Level[]>(()=>{
     const temp = localStorage.getItem("completedData");
     if(temp)
     {
@@ -99,12 +101,11 @@ const CodeSpace = () => {
   });
   const handleQuestion = (value: number, status: boolean,useLevel:boolean,level:number) => {
     setCurrentQuestionIndex(value);
-    console.log(value)
     setUseLevel(useLevel)
     setLevelIndex(level);
     setShowSlide(status);
-    console.log(useLevel + " " + level)
   };
+
   const handleShowSlide = () => {
     setShowSlide(!showSlide);
   };
@@ -127,13 +128,11 @@ const CodeSpace = () => {
   }, [theme]);
 
   const getCurrentQuestion = () => {
-    console.log(currenQuestionIndex);
     return currentLevel?.questions[currenQuestionIndex - 1];
   };
 
   const increaseLevel = async () => {
     let level: number = getCurrentLevelIndex();
-    console.log("triggered","level", level);
     if (levelData) {
       if (level < levelData?.length - 1) {
         level++;
@@ -157,8 +156,9 @@ const CodeSpace = () => {
         const codeData: answerType = JSON.parse(
           localStorage.getItem("codeData")!
         );
+        const tab: TabSwitch[] = JSON.parse(localStorage.getItem("tabSwitchLogs")!)
         try {
-          await addCodeData(codeData);
+          await addCodeData(codeData,tab);
           navigate("/feedback", { replace: true });
         } catch (error) {}
         console.log("gameovered successfully");
@@ -190,7 +190,7 @@ const CodeSpace = () => {
           }
           
           <div
-            className={`absolute z-50 left-0 h-screen overflow-y-auto transform${
+            className={`rounded-lg absolute z-50 left-0 h-screen overflow-y-auto transform${
               showSlide ? "translate-x-0" : "hidden -translate-x-full"
             } text-black border-2 w-96 ace-${theme} duration-500`}
           >
@@ -212,12 +212,13 @@ const CodeSpace = () => {
                 <Question
                   key={index}
                   useLevel={false}
-                  level={index}
+                  level={getCurrentLevelIndex()}
                   question={question}
                   questionNo={index + 1}
                   setQuestion={handleQuestion}
                   theme={theme}
                   setShowQuestion={setShowQuestion}
+                  codeDataChanged={triggerLock}
                 />
               ))}
               {/* <p className="text-2xl font-mono m-2">Completed</p>
@@ -248,6 +249,7 @@ const CodeSpace = () => {
             currentLevelData={currentLevel}
             level={levelIndex}
             useLevel={useLevel}
+            TriggerQuestionLock={setTriggerLock}
             showLoading={(e)=>{console.log(e);setIsLoading(e)}}
           />
           {showQuestion && (

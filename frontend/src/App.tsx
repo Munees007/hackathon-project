@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './App.css'
 import { enterFullScreen } from './Functions/FullScreen'
 import Home from './Pages/Home'
@@ -17,10 +17,25 @@ import PresentationPage from './Components/PresentationPage'
 import Registration from './Pages/Registration'
 import { ToastContainer } from 'react-toastify'
 import { BrainSpark } from './Pages/BrainSpark'
+import { TabSwitch } from './types/TabSwtichTimerType'
 
 function App() {
   const location = useLocation();
   const naviagte = useNavigate();
+  const [_,setSwitchCount] = useState<number>(0)
+  const [tabSwitched, setTabSwitched] = useState<TabSwitch[]>(() => {
+  const saved = localStorage.getItem("tabSwitchLogs");
+  if (!saved) return [];
+
+  const parsed = JSON.parse(saved);
+
+  // Convert back to Date objects
+  return parsed.map((item: any) => ({
+    ...item,
+    timeSwitched: new Date(item.timeSwitched),
+    inactiveTime: new Date(item.inactiveTime),
+  }));
+});
   useEffect(()=>{
     
     document.addEventListener('keydown', event => {
@@ -56,6 +71,68 @@ function App() {
     });
   },[])
 
+ const blurStartRef = useRef<Date | null>(null);
+
+/**
+ * Restore switch count from saved logs
+ */
+useEffect(() => {
+  setSwitchCount(tabSwitched.length);
+}, []);
+useEffect(() => {
+
+  const handleVisibilityChange = () => {
+    if (document.visibilityState === "hidden") {
+      blurStartRef.current = new Date();
+    }
+
+    if (document.visibilityState === "visible") {
+      if (!blurStartRef.current) return;
+
+      const returnTime = new Date();
+
+      const duration = Number(
+        ((returnTime.getTime() - blurStartRef.current.getTime()) / 1000).toFixed(2)
+      );
+
+      if (duration < 0.5) {
+        blurStartRef.current = null;
+        return;
+      }
+
+      setTabSwitched(prev => {
+        const newEntry: TabSwitch = {
+          switchCount: prev.length + 1,
+          timeSwitched: blurStartRef.current!,
+          inactiveTime: returnTime,
+          Duration: duration
+        };
+
+        const updated = [...prev, newEntry];
+
+        localStorage.setItem("tabSwitchLogs", JSON.stringify(updated));
+
+        return updated;
+      });
+
+      blurStartRef.current = null;
+    }
+  };
+
+  document.addEventListener("visibilitychange", handleVisibilityChange);
+
+  return () => {
+    document.removeEventListener("visibilitychange", handleVisibilityChange);
+  };
+
+}, []);
+/**
+ * Sync to localStorage whenever logs change
+ */
+useEffect(() => {
+  localStorage.setItem("tabSwitchLogs", JSON.stringify(tabSwitched));
+}, [tabSwitched]);
+
   useEffect(() => {
     console.log(location.pathname)
   if (location.pathname !== "/feedback" && location.pathname !== "/admin" && location.pathname !== "/registration") {
@@ -68,6 +145,7 @@ function App() {
   return (
     <div onClick={()=>{enterFullScreen(location.pathname)}} className='overflow-hidden'>
       
+    
         <Routes>
             <Route path='/' element={<Home/>}></Route>
             <Route path='/codespace' element={<CodeSpace/>}></Route>

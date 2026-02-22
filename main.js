@@ -22,7 +22,9 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
+      preload: path.join(__dirname, "preload.js")
     },
+
     icon: path.join(__dirname, "assets/icons/zynova.ico"),
   });
 
@@ -56,6 +58,21 @@ function createWindow() {
     mainWindow.webContents.openDevTools();
   })
   
+  mainWindow.on("minimize", () => {
+  mainWindow.webContents.send("window-minimized");
+});
+
+mainWindow.on("restore", () => {
+  mainWindow.webContents.send("window-restored");
+});
+
+mainWindow.on("blur", () => {
+  mainWindow.webContents.send("window-blur");
+});
+
+mainWindow.on("focus", () => {
+  mainWindow.webContents.send("window-focus");
+});
 
 }
 

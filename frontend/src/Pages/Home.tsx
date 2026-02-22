@@ -17,7 +17,7 @@ const Home = () => {
   const [formSubmitted, setFormSubmitted] = useState<boolean>(() => {
     const temp = localStorage.getItem("formSubmitted");
 
-    return temp ? Boolean(temp) : false;
+    return temp == "true";
   });
   const [showLogin,setShowLogin] = useState<boolean>(true)
   const navigate = useNavigate();
@@ -43,7 +43,7 @@ const Home = () => {
     enterFullScreen(document.location.pathname);
   }, []);
   const handleChangeRoute = async () => {
-    const temp = localStorage.getItem("formSubmitted");
+    const temp = localStorage.getItem("formSubmitted") == "true";
     const date = localStorage.getItem("date");
 
     if (date === dateObj.toLocaleDateString()) {
@@ -97,7 +97,7 @@ const Home = () => {
       <div className="relative z-20 min-h-screen flex flex-col items-center justify-between p-6 space-y-16">
         <div className="flex flex-col items-center gap-5">
         <LetterJumpText
-          text="Zynova 2K25"
+          text="Zynova 2K26"
           className="text-6xl font-extrabold max-sm:text-4xl text-cyan-400"
         />
         <p className="text-lg md:text-xl text-white">

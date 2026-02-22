@@ -40,6 +40,7 @@ interface EditorProps {
   showLoading:(a:boolean)=>void;
   useLevel: boolean;
   levelIndex: number;
+  TriggerQuestionLock: (flag: React.SetStateAction<boolean>) => void
 }
 export const formatTime = (seconds: number) => {
   const minutes = Math.floor(seconds / 60);
@@ -59,9 +60,9 @@ export const updateBreak = async(val:boolean) =>{
 }
 const codeDataToDB = async () => {
   const data = localStorage.getItem("codeData");
-
-  if (data) {
-    await addCodeData(JSON.parse(data));
+  const tab = localStorage.getItem("tabSwitchLogs")
+  if (data && tab) {
+    await addCodeData(JSON.parse(data),JSON.parse(tab));
   }
   else
   {
@@ -75,7 +76,8 @@ const Editor: React.FC<EditorProps> = ({
   clearOutput,
   currentLevel,
   increaseLevel,
-  showLoading
+  showLoading,
+  TriggerQuestionLock
 }) => {
   const [code, setCode] = useState<string>(() => {
     if (useLevel) {
@@ -444,7 +446,7 @@ const Editor: React.FC<EditorProps> = ({
   },[])
   useEffect(()=>{
       handleLanguage(71);
-  },[currentLevel]);
+  },[currentLevel,questionNo]);
   const getQuestionsFromLocalStorage = (
     numberOfQuestions: number,
     levelNo: number
@@ -538,6 +540,7 @@ const Editor: React.FC<EditorProps> = ({
           getCurrentLevelIndex()
         );
         codeDataToDB();
+        TriggerQuestionLock((flag)=> !flag)
         setResult(null);
         toast.success("Correct answer");
       } else {
@@ -694,7 +697,7 @@ const Editor: React.FC<EditorProps> = ({
           : ""
       } relative h-screen p-5 overflow-hidden`}
     >
-      <p  className="text-4xl textShadow font-bold text-center font-Orbiton tracking-widest animate-bounce uppercase">Codathon 2k25</p>
+      <p  className="text-4xl textShadow font-bold text-center font-Orbiton tracking-widest animate-bounce uppercase">Codathon 2k26</p>
       
       {codeData?.finalAnswer[currentLevelIndex]?.answer[questionNo - 1]
         ?.answered && (

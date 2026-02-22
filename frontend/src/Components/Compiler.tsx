@@ -9,13 +9,14 @@ interface CompilerProps{
   increaseLevel: () => void,
   showLoading: (a:boolean) =>void,
   useLevel:boolean,
-  level:number
+  level:number,
+  TriggerQuestionLock: (flag: React.SetStateAction<boolean>) => void
 }
 export interface ResultType {
   output:string,  
   success:boolean
 }
-const Compiler:React.FC<CompilerProps> = ({questionNo,currentLevelData,useLevel,level,increaseLevel,showLoading}) => {
+const Compiler:React.FC<CompilerProps> = ({questionNo,currentLevelData,useLevel,level,increaseLevel,showLoading,TriggerQuestionLock}) => {
   const iFrameRef = useRef<HTMLIFrameElement>(null);
   const [result,setResult] = useState<ResultType | null>(null);
   const [IsCodeChanged,SetCodeChanged] = useState(false);
@@ -98,7 +99,7 @@ const Compiler:React.FC<CompilerProps> = ({questionNo,currentLevelData,useLevel,
       width="100%"
       className="iframe hidden"
     ></iframe>
-    <Editor useLevel={useLevel} showLoading={showLoading} levelIndex={level} currentLevel={currentLevelData} increaseLevel={increaseLevel} questionNo={questionNo} clearOutput={handleClearResult}/>
+    <Editor useLevel={useLevel} showLoading={showLoading} levelIndex={level} currentLevel={currentLevelData} increaseLevel={increaseLevel} questionNo={questionNo} clearOutput={handleClearResult} TriggerQuestionLock={TriggerQuestionLock}/>
     </div>
   );
 };
