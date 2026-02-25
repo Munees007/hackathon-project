@@ -303,6 +303,7 @@ const Editor: React.FC<EditorProps> = ({
           testCaseResult: testResult,
           questionNo: Qno + 1,
           levelIndex: data.levelIndex!,
+          finishedTime: -1
         };
       })
     );
@@ -486,6 +487,7 @@ const Editor: React.FC<EditorProps> = ({
         testCaseResult: testResult,
         questionNo: i,
         levelIndex: levelNo,
+        finishedTime: timer
       };
     }
     let score = 0;
@@ -817,6 +819,7 @@ const Editor: React.FC<EditorProps> = ({
                 <Lottie animationData={loading} className="w-96" loop={true} />
               </div>
             ) : (
+              
               <TestCase caseResult={Result}></TestCase>
             )}
           </div>

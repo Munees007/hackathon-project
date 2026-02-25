@@ -1,103 +1,374 @@
-[
-  {
+{
+  "level0": {
     "levelIndex": 0,
     "questions": [
       {
-        "title": "Precision Irrigation Assistant",
+        "title": "Smart Vending Machine",
         "content": {
-          "problem": "In a smart farm, sensors track soil moisture to optimize water usage. Calculate the final water volume required for a field based on its area and moisture level.\n- Base Requirement: 5 Liters per square meter.\n- Moisture < 30.0%: Increase volume by 25%.\n- 30.0% <= Moisture <= 60.0%: Base volume.\n- Moisture > 60.0%: Decrease volume by 50%.\n- Moisture > 80.0%: Volume required is 0 Liters.",
-          "input": "Area (float) and Moisture Percentage (float) on new lines.",
+          "boilerCode": [
+            {
+              "boilerCodeTop": "#include <iostream>\nusing namespace std;\n\n",
+              "funtionSignature": "// Don't change the function signature\nvoid calculateChange(int price, int paid)\n{\n    \n}",
+              "boilerCodeBottom": "int main(){\n    int price, paid;\n    cin >> price >> paid;\n\n    cout << \"===result_start===\" << endl;\n    calculateChange(price, paid);\n    cout << \"===result_end===\" << endl;\n\n    return 0;\n}",
+              "languageCode": 54
+            },
+            {
+              "boilerCodeTop": "import java.util.*;\npublic class Main {\n",
+              "funtionSignature": "// Don't change the function signature\nstatic void calculateChange(int price, int paid)\n{\n    \n}",
+              "boilerCodeBottom": "public static void main(String[] args){\n    Scanner sc = new Scanner(System.in);\n    int price = sc.nextInt();\n    int paid = sc.nextInt();\n\n    System.out.println(\"===result_start===\\n\");\n    calculateChange(price, paid);\n    System.out.println(\"===result_end===\\n\");\n    sc.close();\n}\n}",
+              "languageCode": 62
+            },
+            {
+              "boilerCodeTop": "# Smart Vending Machine\n",
+              "funtionSignature": "# don't change function name\ndef calculate_change(price, paid):\n    pass\n",
+              "boilerCodeBottom": "price = int(input())\npaid = int(input())\n\nprint(\"===result_start===\")\ncalculate_change(price, paid)\nprint(\"===result_end===\")",
+              "languageCode": 71
+            }
+          ],
+          "problem": "Dispense change using the fewest coins. Available coins: Rs. 10, 5, 2, 1.",
+          "input": "Item Price (int) and Amount Paid (int) on new lines.",
+          "output": "Change: 10x[a], 5x[b], 2x[c], 1x[d]",
+          "example1": {
+            "input": "37\n50",
+            "output": "Change: 10x1, 5x0, 2x1, 1x1"
+          },
+          "example2": {
+            "input": "20\n50",
+            "output": "Change: 10x3, 5x0, 2x0, 1x0"
+          },
+          "testCase": [
+            { "input": "37\n50", "output": "Change: 10x1, 5x0, 2x1, 1x1" },
+            { "input": "20\n50", "output": "Change: 10x3, 5x0, 2x0, 1x0" },
+            { "input": "49\n50", "output": "Change: 10x0, 5x0, 2x0, 1x1" },
+            { "input": "100\n100", "output": "Change: 10x0, 5x0, 2x0, 1x0" },
+            { "input": "1\n100", "output": "Change: 10x9, 5x1, 2x2, 1x0" }
+          ]
+        }
+      },
+      {
+        "title": "Cinema Ticket booking with Dynamic Pricing",
+        "content": {
+          "problem": "Base Price: Rs.200. Age <12: 50% discount. Age >60: 30% discount. If show hour >18, add Rs.50.",
+          "input": "Age (int) and Show Hour (int) on new lines.",
+          "output": "Ticket Price: Rs. [Value] (rounded to 2 decimal places)",
+          "example1": {
+            "input": "10\n20",
+            "output": "Ticket Price: Rs. 150.00"
+          },
+          "example2": {
+            "input": "65\n14",
+            "output": "Ticket Price: Rs. 140.00"
+          },
+          "testCase": [
+            { "input": "10\n20", "output": "Ticket Price: Rs. 150.00" },
+            { "input": "30\n19", "output": "Ticket Price: Rs. 250.00" },
+            { "input": "65\n14", "output": "Ticket Price: Rs. 140.00" },
+            { "input": "12\n18", "output": "Ticket Price: Rs. 200.00" },
+            { "input": "61\n23", "output": "Ticket Price: Rs. 190.00" }
+          ],
+          "boilerCode": [
+            {
+              "boilerCodeTop": "#include <iostream>\n#include <iomanip>\nusing namespace std;\n\n",
+              "funtionSignature": "// Don't change signature\ndouble calculatePrice(int age, int hour)\n{\n    \n}",
+              "boilerCodeBottom": "int main(){\n    int age, hour;\n    cin >> age >> hour;\n\n    double result = calculatePrice(age, hour);\n\n    cout << \"===result_start===\" << endl;\n    cout << \"Ticket Price: Rs. \" << fixed << setprecision(2) << result << endl;\n    cout << \"===result_end===\" << endl;\n\n    return 0;\n}",
+              "languageCode": 54
+            },
+            {
+              "boilerCodeTop": "import java.util.*;\npublic class Main {\n",
+              "funtionSignature": "// Don't change signature\nstatic double calculatePrice(int age, int hour)\n{\n    \n}",
+              "boilerCodeBottom": "public static void main(String[] args){\n    Scanner sc = new Scanner(System.in);\n    int age = sc.nextInt();\n    int hour = sc.nextInt();\n\n    double result = calculatePrice(age, hour);\n\n    System.out.println(\"===result_start===\\n\");\n    System.out.printf(\"Ticket Price: Rs. %.2f\\n\", result);\n    System.out.println(\"===result_end===\\n\");\n    sc.close();\n}\n}",
+              "languageCode": 62
+            },
+            {
+              "boilerCodeTop": "# Cinema Dynamic Pricing\n",
+              "funtionSignature": "def calculate_price(age, hour):\n    pass\n",
+              "boilerCodeBottom": "age = int(input())\nhour = int(input())\n\nresult = calculate_price(age, hour)\n\nprint(\"===result_start===\")\nprint(f\"Ticket Price: Rs. {result:.2f}\")\nprint(\"===result_end===\")",
+              "languageCode": 71
+            }
+          ]
+        }
+      },
+      {
+        "title": "Agriculture Irrigation Assistant",
+        "content": {
+          "problem": "Base: 5L per sq.m. Moisture <30%: +25%. 30-60%: Base. >60%: -50%. >80%: 0L.",
+          "input": "Area (float) and Moisture (float) on new lines.",
           "output": "Total: [Volume]L (rounded to 1 decimal place)",
-          "example1": { "input": "100.0\n25.0", "output": "Total: 625.0L" },
-          "example2": { "input": "50.0\n70.0", "output": "Total: 125.0L" },
+          "example1": { "input": "100\n25", "output": "Total: 625.0L" },
+          "example2": { "input": "50\n70", "output": "Total: 125.0L" },
           "testCase": [
-            { "input": "100.0\n25.0", "output": "Total: 625.0L" },
-            { "input": "200.0\n85.0", "output": "Total: 0.0L" },
-            { "input": "100.0\n45.0", "output": "Total: 500.0L" },
-            { "input": "10.0\n10.0", "output": "Total: 62.5L" }
+            { "input": "100\n25", "output": "Total: 625.0L" },
+            { "input": "100\n45", "output": "Total: 500.0L" },
+            { "input": "50\n70", "output": "Total: 125.0L" },
+            { "input": "100\n80", "output": "Total: 250.0L" },
+            { "input": "200\n85", "output": "Total: 0.0L" }
+          ],
+          "boilerCode": [
+            {
+              "boilerCodeTop": "#include <iostream>\n#include <iomanip>\nusing namespace std;\n\n",
+              "funtionSignature": "double calculateWater(double area, double moisture)\n{\n    \n}",
+              "boilerCodeBottom": "int main(){\n    double area, moisture;\n    cin >> area >> moisture;\n\n    double result = calculateWater(area, moisture);\n\n    cout << \"===result_start===\" << endl;\n    cout << \"Total: \" << fixed << setprecision(1) << result << \"L\" << endl;\n    cout << \"===result_end===\" << endl;\n\n    return 0;\n}",
+              "languageCode": 54
+            },
+             {
+              "boilerCodeTop": "import java.util.*;\npublic class Main {\n",
+              "funtionSignature": "static double calculateWater(double area, double moisture)\n{\n    \n}",
+              "boilerCodeBottom": "public static void main(String[] args){\n    Scanner sc = new Scanner(System.in);\n    double area = sc.nextDouble();\n    double moisture = sc.nextDouble();\n\n    double result = calculateWater(area, moisture);\n\n    System.out.println(\"===result_start===\\n\");\n    System.out.printf(\"Total: %.1fL\\n\", result);\n    System.out.println(\"===result_end===\\n\");\n    sc.close();\n}\n}",
+              "languageCode": 62
+            },
+            {
+              "boilerCodeTop": "# Precision Irrigation\n",
+              "funtionSignature": "def calculate_water(area, moisture):\n    pass\n",
+              "boilerCodeBottom": "area = float(input())\nmoisture = float(input())\n\nresult = calculate_water(area, moisture)\n\nprint(\"===result_start===\")\nprint(f\"Total: {result:.1f}L\")\nprint(\"===result_end===\")",
+              "languageCode": 71
+            }
           ]
         }
       },
       {
-        "title": "EV Intelligent Range Predictor",
+        "title": "Courier Zone Router",
         "content": {
-          "problem": "Calculate an EV's predicted range. \n- Initial Range: (Battery % / 100) * 400 km. \n- Cargo Impact: For every 1.0 kg, decrease range by 0.05 km. \n- AC Impact: If AC is ON (1), reduce the remaining range by 15%.",
-          "input": "Battery % (int), Cargo Weight in kg (float), AC Status (1/0) on new lines.",
-          "output": "Predicted Range: [Value] km (rounded to 2 decimal places)",
-          "example1": { "input": "80\n100.0\n1", "output": "Predicted Range: 267.75 km" },
-          "example2": { "input": "100\n0.0\n0", "output": "Predicted Range: 400.00 km" },
+          "problem": "Distance from (0,0). <=10km: Zone A Rs50. <=50km: Zone B Rs150. >50km: Zone C Rs500.",
+          "input": "X and Y coordinates (int) on new lines.",
+          "output": "Zone: [A/B/C], Tax: Rs. [Value]",
+          "example1": { "input": "6\n8", "output": "Zone: A, Tax: Rs. 50" },
+          "example2": { "input": "30\n40", "output": "Zone: B, Tax: Rs. 150" },
           "testCase": [
-            { "input": "80\n100.0\n1", "output": "Predicted Range: 267.75 km" },
-            { "input": "50\n50.0\n0", "output": "Predicted Range: 197.50 km" },
-            { "input": "20\n0.0\n1", "output": "Predicted Range: 68.00 km" }
-          ]
-        }
-      },
-      {
-        "title": "Last-Mile Delivery Pay Calculator",
-        "content": {
-          "problem": "Calculate a delivery partner's earnings.\n- Base Pay: Rs. 40.\n- Distance Pay: First 5km @ Rs. 10/km, Beyond 5km @ Rs. 15/km.\n- Pro Bonus: If rating >= 4.8, total amount gets a 20% bonus.",
-          "input": "Distance in km (float), Customer Rating (float) on new lines.",
-          "output": "Earnings: Rs. [Value] (rounded to 2 decimal places)",
-          "example1": { "input": "8.0\n4.9", "output": "Earnings: Rs. 162.00" },
-          "example2": { "input": "3.0\n4.0", "output": "Earnings: Rs. 70.00" },
-          "testCase": [
-            { "input": "8.0\n4.9", "output": "Earnings: Rs. 162.00" },
-            { "input": "10.0\n4.5", "output": "Earnings: Rs. 165.00" },
-            { "input": "5.0\n4.8", "output": "Earnings: Rs. 108.00" }
-          ]
-        }
-      },
-      {
-        "title": "Smart City Parking Fee",
-        "content": {
-          "problem": "Calculate parking fees.\n- First 2 Hours: Rs. 30 total.\n- Every Hour After: Rs. 20/hr.\n- EV Discount: Flat Rs. 15 discount on final total if EV (1).\n- Long Stay: If duration > 12 hours, add 10% surcharge before EV discount.",
-          "input": "Total Hours (int), Is EV (1/0) on new lines.",
-          "output": "Final Fee: Rs. [Value] (rounded to 2 decimal places)",
-          "example1": { "input": "5\n1", "output": "Final Fee: Rs. 75.00" },
-          "example2": { "input": "15\n0", "output": "Final Fee: Rs. 319.00" },
-          "testCase": [
-            { "input": "5\n1", "output": "Final Fee: Rs. 75.00" },
-            { "input": "15\n0", "output": "Final Fee: Rs. 319.00" },
-            { "input": "2\n1", "output": "Final Fee: Rs. 15.00" }
-          ]
-        }
-      }
-    ]
-  },
-  {
-    "levelIndex": 1,
-    "questions": [
-      {
-        "title": "Robot Path Validator",
-        "content": {
-          "problem": "A robot in a 10x10 grid (0,0 to 9,9) moves by 'U','D','L','R'. Detect if it hits a boundary, an obstacle, or reaches the target (TX, TY) at any point.",
-          "input": "TX TY (ints), NumObstacles (int), Obstacle Coords (x y pairs), Moves (string).",
-          "output": "TARGET_REACHED, OUT_OF_BOUNDS at (x,y), OBSTACLE at (x,y), or INCOMPLETE at (x,y).",
-          "example1": { "input": "2 2\n1\n1 1\nRRUU", "output": "TARGET_REACHED" },
-          "example2": { "input": "5 5\n1\n1 0\nR", "output": "OBSTACLE at (1,0)" },
-          "testCase": [
-            { "input": "2 2\n1\n1 1\nRRUU", "output": "TARGET_REACHED" },
-            { "input": "5 5\n1\n1 0\nR", "output": "OBSTACLE at (1,0)" },
-            { "input": "9 9\n0\nLL", "output": "OUT_OF_BOUNDS at (0,0)" }
+            { "input": "6\n8", "output": "Zone: A, Tax: Rs. 50" },
+            { "input": "30\n40", "output": "Zone: B, Tax: Rs. 150" },
+            { "input": "60\n0", "output": "Zone: C, Tax: Rs. 500" },
+            { "input": "10\n0", "output": "Zone: A, Tax: Rs. 50" },
+            { "input": "35\n35", "output": "Zone: B, Tax: Rs. 150" }
+          ],
+          "boilerCode": [
+            {
+              "boilerCodeTop": "#include <iostream>\n#include <cmath>\nusing namespace std;\n\n",
+              "funtionSignature": "string getZone(int x, int y)\n{\n    \n}",
+              "boilerCodeBottom": "int main(){\n    int x, y;\n    cin >> x >> y;\n\n    string result = getZone(x, y);\n\n    cout << \"===result_start===\" << endl;\n    cout << result << endl;\n    cout << \"===result_end===\" << endl;\n\n    return 0;\n}",
+              "languageCode": 54
+            },
+            {
+              "boilerCodeTop": "import java.util.*;\npublic class Main {\n",
+              "funtionSignature": "static String getZone(int x, int y)\n{\n    \n}",
+              "boilerCodeBottom": "public static void main(String[] args){\n    Scanner sc = new Scanner(System.in);\n    int x = sc.nextInt();\n    int y = sc.nextInt();\n\n    String result = getZone(x, y);\n\n    System.out.println(\"===result_start===\\n\");\n    System.out.println(result + \"\\n\");\n    System.out.println(\"===result_end===\\n\");\n    sc.close();\n}\n}",
+              "languageCode": 62
+            },
+            {
+              "boilerCodeTop": "# Courier Zone Router\n",
+              "funtionSignature": "def get_zone(x, y):\n    pass\n",
+              "boilerCodeBottom": "x = int(input())\ny = int(input())\n\nresult = get_zone(x, y)\n\nprint(\"===result_start===\")\nprint(result)\nprint(\"===result_end===\")",
+              "languageCode": 71
+            }
           ]
         }
       },
       {
         "title": "Real-time Health Alert System",
         "content": {
-          "problem": "A wearable device monitors Heart Rate (HR). Detect sustained abnormalities.\n- EMERGENCY: HR > 150 for 3 consecutive minutes.\n- WARNING: HR > 120 for 3 consecutive minutes.\n- STABLE: Otherwise.\nReturn the highest priority alert.",
-          "input": "10 integers (Heart Rate readings) on new lines.",
-          "output": "Alert: EMERGENCY, Alert: WARNING, or Status: STABLE",
-          "example1": { "input": "80\n90\n125\n130\n128\n100\n90\n155\n160\n165", "output": "Alert: EMERGENCY" },
-          "example2": { "input": "70\n80\n75\n125\n130\n135\n90\n80\n85\n100", "output": "Alert: WARNING" },
+          "problem": "If HR>150 for 3 consecutive → EMERGENCY. If HR>120 for 3 consecutive → WARNING. Else STABLE.",
+          "input": "10 heart rate integers.",
+          "output": "Alert: EMERGENCY / Alert: WARNING / Status: STABLE",
+          "example1": {
+            "input": "80\n90\n125\n130\n128\n100\n90\n155\n160\n165",
+            "output": "Alert: EMERGENCY"
+          },
+          "example2": {
+            "input": "70\n80\n75\n125\n130\n135\n90\n80\n85\n100",
+            "output": "Alert: WARNING"
+          },
           "testCase": [
-            { "input": "80\n90\n125\n130\n128\n100\n90\n155\n160\n165", "output": "Alert: EMERGENCY" },
-            { "input": "70\n80\n75\n125\n130\n135\n90\n80\n85\n100", "output": "Alert: WARNING" },
-            { "input": "70\n70\n70\n70\n70\n70\n70\n70\n74\n75", "output": "Status: STABLE" }
+            {
+              "input": "70\n80\n90\n100\n110\n115\n100\n90\n80\n70",
+              "output": "Status: STABLE"
+            },
+            {
+              "input": "70\n80\n125\n130\n128\n90\n100\n80\n85\n95",
+              "output": "Alert: WARNING"
+            },
+            {
+              "input": "80\n90\n100\n155\n160\n165\n90\n100\n80\n85",
+              "output": "Alert: EMERGENCY"
+            },
+            {
+              "input": "121\n122\n123\n80\n90\n100\n110\n115\n100\n90",
+              "output": "Alert: WARNING"
+            },
+            {
+              "input": "151\n152\n153\n151\n152\n153\n151\n152\n153\n151",
+              "output": "Alert: EMERGENCY"
+            }
+          ],
+          "boilerCode": [
+            {
+              "boilerCodeTop": "#include <iostream>\n#include <vector>\nusing namespace std;\n\n",
+              "funtionSignature": "string analyzeHealth(vector<int>& hr)\n{\n    \n}",
+              "boilerCodeBottom": "int main(){\n    vector<int> hr(10);\n    for(int i=0;i<10;i++) cin>>hr[i];\n\n    string result = analyzeHealth(hr);\n\n    cout<<\"===result_start===\"<<endl;\n    cout<<result<<endl;\n    cout<<\"===result_end===\"<<endl;\n\n    return 0;\n}",
+              "languageCode": 54
+            },
+             {
+              "boilerCodeTop": "import java.util.*;\npublic class Main {\n",
+              "funtionSignature": "static String analyzeHealth(int[] hr)\n{\n    \n}",
+              "boilerCodeBottom": "public static void main(String[] args){\n    Scanner sc = new Scanner(System.in);\n    int[] hr = new int[10];\n    for(int i=0;i<10;i++) hr[i]=sc.nextInt();\n\n    String result = analyzeHealth(hr);\n\n    System.out.println(\"===result_start===\\n\");\n    System.out.println(result + \"\\n\");\n    System.out.println(\"===result_end===\\n\");\n    sc.close();\n}\n}",
+              "languageCode": 62
+            },
+            {
+              "boilerCodeTop": "# Real-time Health Alert\n",
+              "funtionSignature": "def analyze_health(hr):\n    pass\n",
+              "boilerCodeBottom": "hr = [int(input()) for _ in range(10)]\n\nresult = analyze_health(hr)\n\nprint(\"===result_start===\")\nprint(result)\nprint(\"===result_end===\")",
+              "languageCode": 71
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "level1": {
+    "levelIndex": 1,
+    "questions": [
+      {
+        "title": "Smart City Parking Fee",
+        "content": {
+          "problem": "First 2 hours: Rs30. After: Rs20/hour. >12 hours: +10%. EV(1): -Rs15 after surcharge.",
+          "input": "Hours (int) and EV flag (1/0)",
+          "output": "Final Fee: Rs. [Value]",
+          "example1": { "input": "5\n1", "output": "Final Fee: Rs. 75.00" },
+          "example2": { "input": "15\n0", "output": "Final Fee: Rs. 319.00" },
+          "testCase": [
+            { "input": "5\n1", "output": "Final Fee: Rs. 75.00" },
+            { "input": "10\n0", "output": "Final Fee: Rs. 190.00" },
+            { "input": "15\n0", "output": "Final Fee: Rs. 319.00" },
+            { "input": "13\n1", "output": "Final Fee: Rs. 268.00" },
+            { "input": "2\n1", "output": "Final Fee: Rs. 15.00" }
+          ],
+          "boilerCode": [
+            {
+              "boilerCodeTop": "#include <iostream>\n#include <iomanip>\nusing namespace std;\n\n",
+              "funtionSignature": "// Don't change the function signature\ndouble calculateParkingFee(int hours, int isEV)\n{\n    \n}",
+              "boilerCodeBottom": "int main(){\n    int hours, isEV;\n    cin >> hours >> isEV;\n\n    double result = calculateParkingFee(hours, isEV);\n\n    cout << \"===result_start===\" << endl;\n    cout << \"Final Fee: Rs. \" << fixed << setprecision(2) << result << endl;\n    cout << \"===result_end===\" << endl;\n\n    return 0;\n}",
+              "languageCode": 54
+            },
+            {
+              "boilerCodeTop": "import java.util.*;\npublic class Main {\n",
+              "funtionSignature": "static double calculateParkingFee(int hours, int isEV)\n{\n    \n}",
+              "boilerCodeBottom": "public static void main(String[] args){\n    Scanner sc = new Scanner(System.in);\n    int hours = sc.nextInt();\n    int isEV = sc.nextInt();\n\n    double result = calculateParkingFee(hours, isEV);\n\n    System.out.println(\"===result_start===\\n\");\n    System.out.printf(\"Final Fee: Rs. %.2f\\n\", result);\n    System.out.println(\"===result_end===\\n\");\n    sc.close();\n}\n}",
+              "languageCode": 62
+            },
+            {
+              "boilerCodeTop": "# Smart City Parking Fee\n",
+              "funtionSignature": "# don't change the function name\ndef calculate_parking_fee(hours, isEV):\n    pass\n",
+              "boilerCodeBottom": "hours = int(input())\nisEV = int(input())\n\nresult = calculate_parking_fee(hours, isEV)\n\nprint(\"===result_start===\")\nprint(f\"Final Fee: Rs. {result:.2f}\")\nprint(\"===result_end===\")",
+              "languageCode": 71
+            }
+          ]
+        }
+      },
+      {
+        "title": "Emergency Drone Deployment Optimizer",
+        "content": {
+          "problem": "Assign drones by severity, battery constraint (2*ManhattanDistance <= Battery), nearest drone, lowest ID.",
+          "input": "D drones + R requests as defined.",
+          "output": "ASSIGNED: <DroneID> -> <RequestID> OR REQUEST_DROPPED: <RequestID>",
+          "example1": {
+            "input": "1\n1 50 0 0\n1\n101 5 5 5",
+            "output": "ASSIGNED: 1 -> 101"
+          },
+          "testCase": [
+            {
+              "input": "1\n1 50 0 0\n1\n101 5 5 5",
+              "output": "ASSIGNED: 1 -> 101"
+            },
+            {
+              "input": "1\n1 10 0 0\n1\n201 10 10 5",
+              "output": "REQUEST_DROPPED: 201"
+            },
+            {
+              "input": "2\n1 50 0 0\n2 50 10 10\n1\n301 5 5 9",
+              "output": "ASSIGNED: 1 -> 301"
+            },
+            {
+              "input": "2\n1 20 0 0\n2 20 1 1\n1\n401 5 5 8",
+              "output": "REQUEST_DROPPED: 401"
+            },
+            {
+              "input": "2\n1 100 0 0\n2 100 0 0\n2\n501 10 0 9\n502 10 0 9",
+              "output": "ASSIGNED: 1 -> 501"
+            }
+          ],
+          "boilerCode": [
+            {
+              "boilerCodeTop": "#include <iostream>\n#include <vector>\n#include <cmath>\nusing namespace std;\n\n",
+              "funtionSignature": "// Don't change the function signature\nvoid assignDrones()\n{\n    \n}",
+              "boilerCodeBottom": "int main(){\n    cout << \"===result_start===\" << endl;\n    assignDrones();\n    cout << \"===result_end===\" << endl;\n    return 0;\n}",
+              "languageCode": 54
+            },
+            {
+              "boilerCodeTop": "import java.util.*;\npublic class Main {\n",
+              "funtionSignature": "static void assignDrones()\n{\n    \n}",
+              "boilerCodeBottom": "public static void main(String[] args){\n    System.out.println(\"===result_start===\\n\");\n    assignDrones();\n    System.out.println(\"===result_end===\\n\");\n}\n}",
+              "languageCode": 62
+            },
+            {
+              "boilerCodeTop": "# Emergency Drone Deployment Optimizer\n",
+              "funtionSignature": "# don't change function name\ndef assign_drones():\n    pass\n",
+              "boilerCodeBottom": "print(\"===result_start===\")\nassign_drones()\nprint(\"===result_end===\")",
+              "languageCode": 71
+            }
+          ]
+        }
+      },
+      {
+        "title": "Hotel Room Allocation System",
+        "content": {
+          "problem": "Allocate hotel rooms based on guest count and stay duration. Assign the smallest suitable available room. If no room is available during the requested time, reject the booking.",
+          "input": "S D SU\nN\nGuestID Guests CheckIn CheckOut",
+          "output": "GuestID RoomType RoomNumber OR GuestID REJECTED",
+          "example1": {
+            "input": "1 1 1\n3\n101 1 1 5\n102 2 2 6\n103 4 3 8",
+            "output": "101 SINGLE 1\n102 DOUBLE 1\n103 SUITE 1"
+          },
+          "testCase": [
+            {
+              "input": "1 1 1\n3\n101 1 1 5\n102 2 2 6\n103 4 3 8",
+              "output": "101 SINGLE 1\n102 DOUBLE 1\n103 SUITE 1"
+            },
+            {
+              "input": "1 1 0\n2\n201 2 1 4\n202 2 2 5",
+              "output": "201 DOUBLE 1\n202 REJECTED"
+            },
+            {
+              "input": "2 0 0\n3\n301 1 1 3\n302 1 3 5\n303 1 2 4",
+              "output": "301 SINGLE 1\n302 SINGLE 1\n303 SINGLE 2"
+            },
+            {
+              "input": "0 1 1\n2\n401 3 1 6\n402 4 2 5",
+              "output": "401 SUITE 1\n402 REJECTED"
+            },
+            {
+              "input": "1 1 1\n4\n501 1 0 4\n502 1 4 8\n503 2 1 3\n504 4 3 6",
+              "output": "501 SINGLE 1\n502 SINGLE 1\n503 DOUBLE 1\n504 SUITE 1"
+            }
+          ],
+          "boilerCode": [
+            {
+              "boilerCodeTop": "#include <iostream>\n#include <vector>\n#include <string>\nusing namespace std;\n\nstruct Booking {\n    int guestId;\n    int guests;\n    int checkIn;\n    int checkOut;\n};\n\n",
+              "funtionSignature": "// Don't change the function signature\nvector<string> allocateRooms(int S, int D, int SU, vector<Booking>& bookings)\n{\n    \n}",
+              "boilerCodeBottom": "int main(){\n    int S, D, SU;\n    cin >> S >> D >> SU;\n\n    int N;\n    cin >> N;\n\n    vector<Booking> bookings(N);\n    for(int i = 0; i < N; i++){\n        cin >> bookings[i].guestId\n            >> bookings[i].guests\n            >> bookings[i].checkIn\n            >> bookings[i].checkOut;\n    }\n\n    vector<string> result = allocateRooms(S, D, SU, bookings);\n\n    cout << \"===result_start===\" << endl;\n    for(string line : result)\n        cout << line << endl;\n    cout << \"===result_end===\" << endl;\n\n    return 0;\n}",
+              "languageCode": 54
+            },
+            {
+              "boilerCodeTop": "import java.util.*;\n\nclass Booking {\n    int guestId, guests, checkIn, checkOut;\n    Booking(int guestId, int guests, int checkIn, int checkOut){\n        this.guestId = guestId;\n        this.guests = guests;\n        this.checkIn = checkIn;\n        this.checkOut = checkOut;\n    }\n}\n\npublic class Main {\n",
+              "funtionSignature": "static List<String> allocateRooms(int S, int D, int SU, List<Booking> bookings)\n{\n    \n}",
+              "boilerCodeBottom": "public static void main(String[] args){\n    Scanner sc = new Scanner(System.in);\n    int S = sc.nextInt();\n    int D = sc.nextInt();\n    int SU = sc.nextInt();\n\n    int N = sc.nextInt();\n    List<Booking> bookings = new ArrayList<>();\n    for(int i = 0; i < N; i++){\n        bookings.add(new Booking(sc.nextInt(), sc.nextInt(), sc.nextInt(), sc.nextInt()));\n    }\n\n    List<String> result = allocateRooms(S, D, SU, bookings);\n\n    System.out.println(\"===result_start===\\n\");\n    for(String line : result)\n        System.out.println(line + \"\\n\");\n    System.out.println(\"===result_end===\\n\");\n    sc.close();\n}\n}"
+            },
+            {
+              "boilerCodeTop": "# Hotel Room Allocation System\n\n",
+              "funtionSignature": "# don't change function name\ndef allocate_rooms(S, D, SU, bookings):\n    return []\n",
+              "boilerCodeBottom": "S, D, SU = map(int, input().split())\nN = int(input())\n\nbookings = []\nfor _ in range(N):\n    guestId, guests, checkIn, checkOut = map(int, input().split())\n    bookings.append((guestId, guests, checkIn, checkOut))\n\nresult = allocate_rooms(S, D, SU, bookings)\n\nprint(\"===result_start===\")\nfor line in result:\n    print(line)\nprint(\"===result_end===\")",
+              "languageCode": 71
+            }
           ]
         }
       }
     ]
   }
-]
+}

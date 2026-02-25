@@ -179,7 +179,7 @@ async function handleJob(language, code, stdin, jobTmpDir) {
     const gpp = CONFIG.compilers.cpp.exe;
     console.log("Using g++ at:", gpp);
 
-    const compileArgs = [path.join(jobTmpDir, src), "-O2", "-std=c++17", "-o", outBinPath];
+    const compileArgs = [path.join(jobTmpDir, src), "-O2", "-std=c++11", "-o", outBinPath];
     const compileCmd = firejailAvailable ? "firejail" : gpp;
     const compileArgsFinal = firejailAvailable ? ["--quiet", "--private=" + jobTmpDir, "--", gpp].concat(compileArgs.slice(1)) : compileArgs;
 

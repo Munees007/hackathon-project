@@ -17,6 +17,7 @@ const languages = [
   ];
   const language = languages.find(lang => lang.value === languageCode);
   console.log("Selected language:", language);
+  console.log("Final Code", finalCode)
   console.log("Type of languageCode =", typeof languageCode, languageCode);
 
   try {

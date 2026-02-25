@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { CodeSnippet } from "../Components/BrainSpark/CodeSnippet";
 import { QuestionItem } from "../types/BrainSparkType";
-import { getQuestions, updateScore } from "../Database/brainspark";
+import { getQuestions, updateBrainSparkTime, updateScore } from "../Database/brainspark";
 import { RiddleLogic } from "../Components/BrainSpark/RiddleLogic";
 import { AlgorithmDrag } from "../Components/BrainSpark/AlgorithmDrag";
 import { formatTime, updateBreak } from "../Components/Editor";
@@ -48,6 +48,7 @@ export const BrainSpark = () => {
   const handleGameOver = async () =>{
     setTimerRunning(false)
     localStorage.setItem("Round1","completed")
+    await updateBrainSparkTime(timer);
     await updateBreak(true)
     navigate("/codespace")
   }

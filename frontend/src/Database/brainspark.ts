@@ -54,3 +54,18 @@ export const updateScore = async (score:number) =>{
             console.log(error);
         }
 }
+export const updateBrainSparkTime = async (time:number) =>{
+    try {
+            const userData = localStorage.getItem("userData");
+            const data = JSON.parse(userData!);
+            const lotNo = data.lotNo;
+    
+            const userRef = ref(db,`users/${lotNo}`);
+    
+            await update(userRef,{brainSparkTime: time});
+    
+            console.log("data submitted successfully");
+        } catch (error) {
+            console.log(error);
+        }
+}

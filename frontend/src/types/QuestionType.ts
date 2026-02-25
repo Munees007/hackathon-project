@@ -53,6 +53,7 @@ export type answerFormat = {
   testCaseResult:testCaseResult,
   questionNo:number,
   levelIndex:number,
+  finishedTime:number
 }
 export type answerLevel = {
   answer:answerFormat[],
